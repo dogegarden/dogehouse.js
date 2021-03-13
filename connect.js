@@ -4,7 +4,7 @@ const heartbeatInterval = 8000;
 const apiUrl = "wss://api.dogehouse.tv/socket";
 
 const connect = (
-  token,
+  token, refreshToken,
   {
     logger = () => {},
     onConnectionTaken = () => console.error("Another client has taken the connection")
@@ -39,7 +39,7 @@ const connect = (
       "auth",
       {
         accessToken: token,
-        refreshToken: "uhhh",
+        refreshToken: refreshToken,
         reconnectToVoice: false,
         currentRoomId: null,
         muted: false,
