@@ -12,9 +12,9 @@ const connect = (
   }
 ) => new Promise((resolve, reject) => {
   const socket = new WebSocket(apiUrl);
-  const apiSend = (opcode, data) => {
-    socket.send(JSON.stringify({ op: opcode, d: data }));
-    logger("out", opcode, data);
+  const apiSend = (opcode, data, fetchId) => {
+    socket.send(JSON.stringify({ op: opcode, d: data, fetchId }));
+    logger("out", opcode, data, fetchId);
   };
 
   const listeners = [];
@@ -35,7 +35,7 @@ const connect = (
         };
 
         listeners.push(listener);
-        apiSend(opcode, data);
+        apiSend(opcode, data, fetchId);
       })
   }
 
@@ -70,7 +70,7 @@ const connect = (
       }
 
       const message = JSON.parse(e.data);
-      logger("in", message.op, message.d);
+      logger("in", message.op, message.d, message.fetchId);
 
       if(message.op === "auth-good") {
         connection.user = message.d.user;

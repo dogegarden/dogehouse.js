@@ -2,11 +2,11 @@ require("dotenv").config();
 
 const connect = require("./connect");
 
-const logger = (direction, opcode, data) => {
+const logger = (direction, opcode, data, fetchId) => {
   console.info(
-    `${direction.toUpperCase().padEnd(3, " ")} "${opcode}"\n${data ? JSON.stringify(data, null, 2) : ""}\n`
+    `${direction.toUpperCase().padEnd(3, " ")} "${opcode}" ${fetchId ? `(fetch id ${fetchId})` : ""}\n${data ? JSON.stringify(data, null, 2) : ""}\n`
   );
-}
+};
 
 const main = async () => {
   try {
