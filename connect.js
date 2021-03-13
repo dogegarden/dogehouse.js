@@ -22,20 +22,21 @@ const connect = (
     addListener: (opcode, handler) => listeners.push({ opcode, handler }),
     user: null,
     send: (opcode, data) => apiSend(opcode, data),
-    fetch: (opcode, data) => new Promise((resolveFetch, rejectFetch) => {
-      const fetchId = generateUuid();
-      const listener = {
-        opcode: "fetch_done",
-        handler: (data, arrivedId) => {
-          if(arrivedId !== fetchId) return;
-          listeners.splice(listeners.indexOf(listener), 1);
-          resolveFetch(data);
-        }
-      };
+    fetch: (opcode, data, doneOpcode) =>
+      new Promise((resolveFetch, rejectFetch) => {
+        const fetchId = !doneOpcode && generateUuid();
+        const listener = {
+          opcode: doneOpcode ?? "fetch_done",
+          handler: (data, arrivedId) => {
+            if(!doneOpcode && arrivedId !== fetchId) return;
+            listeners.splice(listeners.indexOf(listener), 1);
+            resolveFetch(data);
+          }
+        };
 
-      listeners.push(listener);
-      apiSend(opcode, data);
-    })
+        listeners.push(listener);
+        apiSend(opcode, data);
+      })
   }
 
   socket.addEventListener("open", () => {
