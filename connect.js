@@ -13,8 +13,9 @@ const connect = (
 ) => new Promise((resolve, reject) => {
   const socket = new WebSocket(apiUrl);
   const apiSend = (opcode, data, fetchId) => {
-    socket.send(JSON.stringify({ op: opcode, d: data, fetchId }));
-    logger("out", opcode, data, fetchId);
+    const raw = `{"op":"${opcode}","d":${JSON.stringify(data)}${fetchId ? `,"fetchId":"${fetchId}"` : ""}}`;
+    socket.send(raw);
+    logger("out", opcode, data, fetchId, raw);
   };
 
   const listeners = [];
@@ -42,6 +43,7 @@ const connect = (
   socket.addEventListener("open", () => {
     const heartbeat = setInterval(
       () => socket.send("ping"),
+        socket.send("ping");
       heartbeatInterval
     );
 
@@ -70,7 +72,7 @@ const connect = (
       }
 
       const message = JSON.parse(e.data);
-      logger("in", message.op, message.d, message.fetchId);
+      logger("in", message.op, message.d, message.fetchId, e.data);
 
       if(message.op === "auth-good") {
         connection.user = message.d.user;
