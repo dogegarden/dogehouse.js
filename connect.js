@@ -8,7 +8,8 @@ const apiSend = (ws, opcode, data) => ws.send(JSON.stringify({ op: opcode, d: da
 const connect = (
   token,
   {
-    logger = () => {}
+    logger = () => {},
+    onConnectionTaken = () => console.error("Another client has taken the connection")
   }
 ) => new Promise((resolve, reject) => {
   const socket = new WebSocket(apiUrl);
@@ -27,6 +28,7 @@ const connect = (
 
     socket.addEventListener("close", (error) => {
       clearInterval(heartbeat);
+      if(error.code === 4003) onConnectionTaken();
       reject(error);
     });
 
