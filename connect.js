@@ -1,4 +1,5 @@
 const WebSocket = require("ws");
+const { v4: generateUuid } = require("uuid");
 
 const heartbeatInterval = 8000;
 const apiUrl = "wss://api.dogehouse.tv/socket";
@@ -20,7 +21,21 @@ const connect = (
   const connection = {
     addListener: (opcode, handler) => listeners.push({ opcode, handler }),
     user: null,
-    send: (opcode, data) => apiSend(socket, opcode, data)
+    send: (opcode, data) => apiSend(opcode, data),
+    fetch: (opcode, data) => new Promise((resolveFetch, rejectFetch) => {
+      const fetchId = generateUuid();
+      const listener = {
+        opcode: "fetch_done",
+        handler: (data, arrivedId) => {
+          if(arrivedId !== fetchId) return;
+          listeners.splice(listeners.indexOf(listener), 1);
+          resolveFetch(data);
+        }
+      };
+
+      listeners.push(listener);
+      apiSend(opcode, data);
+    })
   }
 
   socket.addEventListener("open", () => {
@@ -60,7 +75,9 @@ const connect = (
         connection.user = message.d.user;
         resolve(connection);
       } else {
-        listeners.filter(({ opcode }) => opcode === message.op).forEach(({ handler }) => handler(message.d));
+        listeners
+          .filter(({ opcode }) => opcode === message.op)
+          .forEach(({ handler }) => handler(message.d, message.fetchId));
       }
     });
   });
