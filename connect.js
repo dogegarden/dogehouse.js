@@ -3,8 +3,6 @@ const WebSocket = require("ws");
 const heartbeatInterval = 8000;
 const apiUrl = "wss://api.dogehouse.tv/socket";
 
-const apiSend = (ws, opcode, data) => ws.send(JSON.stringify({ op: opcode, d: data }));
-
 const connect = (
   token,
   {
@@ -13,6 +11,11 @@ const connect = (
   }
 ) => new Promise((resolve, reject) => {
   const socket = new WebSocket(apiUrl);
+  const apiSend = (opcode, data) => {
+    socket.send(JSON.stringify({ op: opcode, d: data }));
+    logger("out", opcode, data);
+  };
+
   const listeners = [];
   const connection = {
     addListener: (opcode, handler) => listeners.push({ opcode, handler }),
@@ -33,7 +36,6 @@ const connect = (
     });
 
     apiSend(
-      socket,
       "auth",
       {
         accessToken: token,
@@ -47,12 +49,12 @@ const connect = (
 
     socket.addEventListener("message", e => {
       if(e.data === `"pong"`) {
-        logger("pong");
+        logger("in", "pong");
         return;
       }
 
       const message = JSON.parse(e.data);
-      logger(message.op, message.d);
+      logger("in", message.op, message.d);
 
       if(message.op === "auth-good") {
         connection.user = message.d.user;
