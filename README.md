@@ -1,4 +1,4 @@
-# library
+# Doge Wrapper
 The DogeHouse API implementation
 
 ## Tutorial
