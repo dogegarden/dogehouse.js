@@ -1,8 +1,10 @@
 const WebSocket = require("isomorphic-ws");
+const ReconnectingWebSocket = require("reconnecting-websocket");
 const { v4: generateUuid } = require("uuid");
 
 const heartbeatInterval = 8000;
 const apiUrl = "wss://api.dogehouse.tv/socket";
+const connectionTimeout = 15000;
 
 const connect = (
   token, refreshToken,
@@ -14,7 +16,7 @@ const connect = (
     }
   }
 ) => new Promise((resolve, reject) => {
-  const socket = new WebSocket(apiUrl);
+  const socket = new ReconnectingWebSocket(apiUrl, [], { connectionTimeout, WebSocket });
   const apiSend = (opcode, data, fetchId) => {
     const raw = `{"op":"${opcode}","d":${JSON.stringify(data)}${fetchId ? `,"fetchId":"${fetchId}"` : ""}}`;
     socket.send(raw);

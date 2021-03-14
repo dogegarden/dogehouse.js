@@ -16,6 +16,7 @@
   "scripts": {},
   "dependencies": {
     "isomorphic-ws": "^4.0.1",
+    "reconnecting-websocket": "^4.4.0",
     "uuid": "^8.3.2",
     "ws": "^7.4.4"
   },
