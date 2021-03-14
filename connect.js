@@ -22,6 +22,11 @@ const connect = (
   };
 
   const listeners = [];
+  const runListener = (listener, data, fetchId) => {
+    const remove = listener.handler(data, fetchId);
+    if(remove) listeners.splice(listeners.indexOf(listener), 1);
+  };
+
   const connection = {
     addListener: (opcode, handler) => listeners.push({ opcode, handler }),
     user: null,
@@ -29,16 +34,16 @@ const connect = (
     fetch: (opcode, data, doneOpcode) =>
       new Promise((resolveFetch, rejectFetch) => {
         const fetchId = !doneOpcode && generateUuid();
-        const listener = {
+        listeners.push({
           opcode: doneOpcode ?? "fetch_done",
           handler: (data, arrivedId) => {
             if(!doneOpcode && arrivedId !== fetchId) return;
-            listeners.splice(listeners.indexOf(listener), 1);
             resolveFetch(data);
-          }
-        };
 
-        listeners.push(listener);
+            return true;
+          }
+        });
+
         apiSend(opcode, data, fetchId);
       })
   }
@@ -85,7 +90,7 @@ const connect = (
       } else {
         listeners
           .filter(({ opcode }) => opcode === message.op)
-          .forEach(({ handler }) => handler(message.d, message.fetchId));
+          .forEach(it => runListener(it, message.d, message.fetchId));
       }
     });
   });
