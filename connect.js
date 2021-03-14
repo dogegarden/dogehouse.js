@@ -8,7 +8,10 @@ const connect = (
   token, refreshToken,
   {
     logger = () => {},
-    onConnectionTaken = () => console.error("Another client has taken the connection")
+    onConnectionTaken = () => {
+      console.error("\nAnother client has taken the connection");
+      process.exit();
+    }
   }
 ) => new Promise((resolve, reject) => {
   const socket = new WebSocket(apiUrl);
