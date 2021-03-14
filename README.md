@@ -12,4 +12,4 @@ The DogeHouse API implementation
 DOGEHOUSE_TOKEN=<token>
 DOGEHOUSE_REFRESH_TOKEN=<refresh-token>
 ```
-6. Start example.js
+6. Start example.js using `node example.js`
