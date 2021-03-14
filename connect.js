@@ -42,8 +42,10 @@ const connect = (
 
   socket.addEventListener("open", () => {
     const heartbeat = setInterval(
-      () => socket.send("ping"),
+      () => {
         socket.send("ping");
+        logger("out", "ping");
+      },
       heartbeatInterval
     );
 
