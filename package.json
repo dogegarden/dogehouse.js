@@ -1,7 +1,17 @@
 {
   "name": "dogehouse",
+  "author": "Ilya Maximov <mail@overlisted.net> (https://overlisted.net)",
+  "bugs": "https://github.com/dogegarden/dogehouse-js/issues",
   "version": "0.1.0",
   "license": "GPL-3-or-later",
+  "keywords": [
+    "dogehouse"
+  ],
+  "description": "Client-side implementation of DogeHouse API.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dogegarden/dogehouse-js.git"
+  },
   "main": "index.js",
   "scripts": {},
   "dependencies": {
