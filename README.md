@@ -1,9 +1,7 @@
-# Doge Wrapper
-The DogeHouse API implementation
+# dogehouse-js
+Client-side implementation of DogeHouse API.
 
-## Tutorial
-- Basic tutorial for now.
-
+## Running the example
 1. Go to https://dogehouse.tv
 2. Open Developer options (F12 or Ctrl+Shift+I)
 3. Go to Application > Local Storage > dogehouse.tv
@@ -12,5 +10,6 @@ The DogeHouse API implementation
 DOGEHOUSE_TOKEN=<token>
 DOGEHOUSE_REFRESH_TOKEN=<refresh-token>
 ```
-5. Start example.js using `node example.js` in your terminal
-*(Requires [NodeJS](https://nodejs.org/en/download/) to be installed)*
+5. Install NodeJS and NPM
+6. Run `$ npm i` to install the required packages
+7. Start `example.js` using `$ node example.js` in your terminal
