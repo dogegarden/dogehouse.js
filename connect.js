@@ -1,4 +1,4 @@
-const WebSocket = require("ws");
+const WebSocket = require("isomorphic-ws");
 const { v4: generateUuid } = require("uuid");
 
 const heartbeatInterval = 8000;
