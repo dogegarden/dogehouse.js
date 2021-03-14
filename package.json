@@ -1,6 +1,7 @@
 {
   "name": "dogehouse",
   "version": "0.1.0",
+  "license": "GPL-3-or-later",
   "main": "index.js",
   "scripts": {},
   "dependencies": {
