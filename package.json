@@ -1,5 +1,5 @@
 {
-  "name": "dogehouse",
+  "name": "@dogehouse/client",
   "author": "Ilya Maximov <mail@overlisted.net> (https://overlisted.net)",
   "bugs": "https://github.com/dogegarden/dogehouse-js/issues",
   "version": "0.1.0",

@@ -1,4 +1,4 @@
-# dogehouse-js
+# dogehouse-client
 Client-side implementation of DogeHouse API.
 
 ## Running the example
