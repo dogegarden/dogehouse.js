@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 const readline = require("readline");
-const { connect } = require(".");
+const { connect } = require("../../src");
 
 const logger = (direction, opcode, data, fetchId, raw) => {
   const directionPadded = direction.toUpperCase().padEnd(3, " ");
