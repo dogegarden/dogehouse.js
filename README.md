@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://cdn.discordapp.com/attachments/820450983892222022/820958028508430336/dogegarden.png" alt="DogeHouse logo" />
+  <img src="https://cdn.discordapp.com/attachments/820450983892222022/820960202299015168/dogegardenfixed.png" alt="DogeHouse logo" />
 </p>
 <p align="center">
   <strong>Client-side implementation of DogeHouse API. 🐶</strong>
