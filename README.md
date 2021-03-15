@@ -1,6 +1,9 @@
 # dogehouse-client
 Client-side implementation of DogeHouse API.
 
+## NPM Package
+https://www.npmjs.com/package/@dogehouse/client
+
 ## Running the example
 1. Go to https://dogehouse.tv
 2. Open Developer options (F12 or Ctrl+Shift+I)
