@@ -1,40 +1,58 @@
-const WebSocket = require("isomorphic-ws");
-const ReconnectingWebSocket = require("reconnecting-websocket");
-const { v4: generateUuid } = require("uuid");
+import WebSocket from "isomorphic-ws";
+import ReconnectingWebSocket from "reconnecting-websocket";
+import { v4 as generateUuid } from "uuid";
 
 const heartbeatInterval = 8000;
 const apiUrl = "wss://api.dogehouse.tv/socket";
 const connectionTimeout = 15000;
 
-const connect = (
-  token, refreshToken,
+export type Token = string;
+export type FetchID = string;
+export type Opcode = string;
+export type Logger = (direction: "in" | "out", opcode: Opcode, data?: object, fetchId?: FetchID, raw?: string) => void;
+export type ListenerHandler = (data: object, fetchId?: FetchID) => boolean | undefined;
+export type Listener = {
+  opcode: Opcode;
+  handler: ListenerHandler;
+};
+
+export type Connection = {
+  addListener: (opcode: Opcode, handler: ListenerHandler) => void;
+  user: unknown; // we'll need all entity types
+  send: (opcode: Opcode, data: object, fetchId?: FetchID) => void;
+  fetch: (opcode: Opcode, data: object, doneOpcode: Opcode) => Promise<object>;
+};
+
+export const connect = (
+  token: Token,
+  refreshToken: Token,
   {
     logger = () => {},
     onConnectionTaken = () => {
       console.error("\nAnother client has taken the connection");
       process.exit();
     }
-  }
-) => new Promise((resolve, reject) => {
+  }: { logger?: Logger, onConnectionTaken?: () => void }
+): Promise<Connection> => new Promise((resolve, reject) => {
   const socket = new ReconnectingWebSocket(apiUrl, [], { connectionTimeout, WebSocket });
-  const apiSend = (opcode, data, fetchId) => {
+  const apiSend = (opcode: Opcode, data: object, fetchId?: FetchID) => {
     const raw = `{"op":"${opcode}","d":${JSON.stringify(data)}${fetchId ? `,"fetchId":"${fetchId}"` : ""}}`;
     socket.send(raw);
     logger("out", opcode, data, fetchId, raw);
   };
 
-  const listeners = [];
-  const runListener = (listener, data, fetchId) => {
+  const listeners: Listener[] = [];
+  const runListener = (listener: Listener, data: object, fetchId: FetchID) => {
     const remove = listener.handler(data, fetchId);
     if(remove) listeners.splice(listeners.indexOf(listener), 1);
   };
 
-  const connection = {
-    addListener: (opcode, handler) => listeners.push({ opcode, handler }),
+  const connection: Connection = {
+    addListener: (opcode: Opcode, handler: ListenerHandler) => listeners.push({ opcode, handler }),
     user: null,
     send: apiSend,
-    fetch: (opcode, data, doneOpcode) => new Promise((resolveFetch, rejectFetch) => {
-      const fetchId = !doneOpcode && generateUuid();
+    fetch: (opcode: Opcode, data: object, doneOpcode: Opcode) => new Promise((resolveFetch, rejectFetch) => {
+      const fetchId: FetchID | false = !doneOpcode && generateUuid();
       listeners.push({
         opcode: doneOpcode ?? "fetch_done",
         handler: (data, arrivedId) => {
@@ -45,7 +63,7 @@ const connect = (
         }
       });
 
-      apiSend(opcode, data, fetchId);
+      apiSend(opcode, data, fetchId || undefined);
     })
   }
 
@@ -96,5 +114,3 @@ const connect = (
     });
   });
 });
-
-module.exports = connect
