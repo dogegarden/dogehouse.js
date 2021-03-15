@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://cdn.discordapp.com/attachments/820450983892222022/820960202299015168/dogegardenfixed.png" alt="DogeHouse logo" />
+  <img src="https://cdn.discordapp.com/attachments/820450983892222022/820961073980899328/dogegarden-bottom-cropped.png" alt="DogeGarden logo" />
 </p>
 <p align="center">
   <strong>Client-side implementation of DogeHouse API. 🐶</strong>
@@ -15,15 +15,10 @@
   <span> · </span>
   <a href="https://discord.gg/Nu6KVjJYj6">Discord</a>
   <span> · </span>
-  <a href="https://docs.dogehouse.xyz">Documentation</a>
+  <a href="https://docs.dogehouse.xyz">Documentation (soon)</a>
 </h3>
 
 ---
-
-## Branches
-
-- staging -> pr to this branch, here we will review code and contribulate
-- prod -> don't touch, this is what's running in the production environment
 
 ## Installation
 
