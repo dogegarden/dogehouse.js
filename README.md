@@ -23,16 +23,14 @@
 ## Installation
 
 1. Go to https://dogehouse.tv
-2. Open Developer options (F12 or Ctrl+Shift+I)
-3. Go to Application > Local Storage > dogehouse.tv
-4. Copy your token and refresh-token and put them in an .env file:
-```
-DOGEHOUSE_TOKEN=<token>
-DOGEHOUSE_REFRESH_TOKEN=<refresh-token>
-```
-5. Install NodeJS and NPM
-6. Run `$ npm i` to install the required packages
-7. Start `example.js` using `$ node example.js` in your terminal
+2. Login (If you haven't yet)
+3. Open Developer options (F12 or Ctrl+Shift+I)
+4. Go to Application > Local Storage > dogehouse.tv
+5. Copy your token and refresh-token
+6. Move .env.example to .env and paste you token and refresh token 
+7. Install NodeJS and NPM (If you haven't already)
+8. Run `$ npm i` to install the required packages
+9. Start `example.js` using `$ node example.js` in your terminal
 
 ## Examples
 /examples
