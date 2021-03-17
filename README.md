@@ -69,3 +69,8 @@ const main = async () => {
 
 main();
 ```
+
+## Credits
+Original author and implementation: Ilya Maximov <mail@overlisted.net> (https://overlisted.net) https://github.com/overlisted
+Thank you to Abalon#2525/https://github.com/alon-abadi for the awesome logo!
+
