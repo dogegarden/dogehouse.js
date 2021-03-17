@@ -8,6 +8,7 @@
   <a href="https://discord.gg/Nu6KVjJYj6">
     <img src="https://img.shields.io/discord/820442045264691201?style=for-the-badge" alt="discord - users online" />
   </a>
+  <img src="https://img.shields.io/npm/v/dogehouse-js?style=for-the-badge">
 </p>
 
 <h3 align="center">  
@@ -20,6 +21,11 @@
 
 ---
 
+## NPM Package
+  <img src="https://img.shields.io/npm/v/dogehouse-js?style=for-the-badge">
+- Our NPM package is the quickest and easiest way to jump in with dogehouse-js. 
+
+- NPM: https://www.npmjs.com/package/dogehouse-js
 ## Installation
 
 1. Go to https://dogehouse.tv
