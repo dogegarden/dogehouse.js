@@ -38,7 +38,7 @@ DOGEHOUSE_REFRESH_TOKEN=<refresh-token>
 - All examples like, sending messages, joining rooms and more are in /examples.
 
 ### Example - Get Popular Rooms
-```
+```js
 const { raw: { connect }, wrap } = require('dogehouse-js');
 
 const main = async () => {
