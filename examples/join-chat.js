@@ -1,7 +1,13 @@
+// In this example we will search for all public rooms
+// Get the highest one which is provided for us by DogeHouse
+// Join it and setup 2-way terminal chat.
+
+// All using the wrapper to fetch and send data.
+
 require("dotenv").config();
 
 const readline = require("readline");
-const { raw: { connect }, wrap } = require('./lib/index');
+const { raw: { connect }, wrap } = require('dogehouse-js');
 
 const logger = (direction, opcode, data, fetchId, raw) => {
   const directionPadded = direction.toUpperCase().padEnd(3, " ");
