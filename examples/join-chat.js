@@ -53,13 +53,11 @@ const main = async () => {
         msg.tokens.map(it => it.v).reduce((a, b) => a + " " + b);
 
       if (userId !== connection.user.id) {
-        if (userId !== connection.user.id) {
-          process.stdout.clearLine();
-          process.stdout.cursorTo(0);
+        process.stdout.clearLine();
+        process.stdout.cursorTo(0);
 
-          const whisperText = msg.isWhisper ? `whisper`.bgBlue.white + " " : "";
-          console.log(`${msg.displayName} > ${whisperText}${text}`);
-        }
+        const whisperText = msg.isWhisper ? `whisper`.bgBlue.white + " " : "";
+        console.log(`${msg.displayName} > ${whisperText}${text}`);
       }
 
       rl.prompt();
