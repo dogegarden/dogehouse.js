@@ -1,7 +1,7 @@
 // @ts-nocheck because internet is unpredictable
 
 import { Connection } from "./raw";
-import { MessageToken, Room, UUID, Message } from "./entities";
+import { MessageToken, Room, UUID, Message, UserList } from "./entities";
 
 export const wrap = (connection: Connection) => ({
   getTopPublicRooms: (): Promise<Room[]> =>
@@ -27,4 +27,10 @@ export const wrap = (connection: Connection) => ({
         callback({ userId, msg })
     );
   },
+  getRoomUsers: async (): Promise<UserList> =>
+    connection.fetch(
+      "get_current_room_users",
+      {},
+      "get_current_room_users_done"
+    ),
 });

@@ -49,3 +49,32 @@ export declare type Message = {
     sentAt: string;
     isWhisper?: boolean;
 };
+export declare type UserList = {
+    users: {
+        youAreFollowing: null | true;
+        username: string;
+        roomPermissions: [Object];
+        online: true;
+        numFollowing: number;
+        numFollowers: number;
+        lastOnline: string;
+        id: string;
+        followsYou: null | true;
+        displayName: string;
+        currentRoomId: string;
+        currentRoom: [Object];
+        bio: string;
+        avatarUrl: string;
+    }[];
+    roomId: string;
+    raiseHandMap: {
+        [key: string]: boolean;
+    };
+    muteMap: {
+        [key: string]: boolean;
+    };
+    autoSpeaker: false;
+    activeSpeakerMap: {
+        [key: string]: boolean;
+    };
+};

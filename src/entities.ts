@@ -4,7 +4,7 @@ export type UserPreview = {
   numFollowers: number;
   id: UUID;
   displayName: string;
-}
+};
 
 export type Room = {
   voiceServerId: number | "";
@@ -15,7 +15,7 @@ export type Room = {
   id: UUID;
   description: string;
   creatorId: UUID;
-}
+};
 
 export type User = {
   youAreFollowing?: boolean;
@@ -54,4 +54,28 @@ export type Message = {
   deleterId?: UUID;
   sentAt: string;
   isWhisper?: boolean;
-}
+};
+
+export type UserList = {
+  users: {
+    youAreFollowing: null | true;
+    username: string;
+    roomPermissions: [Object]; // needs updating, too lazy for that
+    online: true;
+    numFollowing: number;
+    numFollowers: number;
+    lastOnline: string;
+    id: string;
+    followsYou: null | true;
+    displayName: string;
+    currentRoomId: string;
+    currentRoom: [Object]; // needs updating, too lazy for that
+    bio: string;
+    avatarUrl: string;
+  }[];
+  roomId: string;
+  raiseHandMap: { [key: string]: boolean }; // seems broken
+  muteMap: { [key: string]: boolean };
+  autoSpeaker: false;
+  activeSpeakerMap: { [key: string]: boolean };
+};
