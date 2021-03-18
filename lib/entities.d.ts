@@ -78,3 +78,16 @@ export declare type UserList = {
         [key: string]: boolean;
     };
 };
+export declare type Wrapper = {
+    getTopPublicRooms: () => Promise<Room[]>;
+    joinRoom: (id: UUID) => Promise<void>;
+    sendRoomChatMsg: (ast: MessageToken[]) => Promise<void>;
+    leaveRoom: () => Promise<{
+        roomId: UUID;
+    }>;
+    listenForChatMsg: (callback: ({ userId, msg }: {
+        userId: string;
+        msg: Message;
+    }) => void) => void;
+    getRoomUsers: () => Promise<UserList>;
+};
