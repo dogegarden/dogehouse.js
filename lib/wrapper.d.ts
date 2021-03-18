@@ -10,6 +10,6 @@ export declare const wrap: (connection: Connection) => {
     listenForChatMsg: (callback: ({ userId, msg }: {
         userId: string;
         msg: Message;
-    }) => {}) => void;
+    }) => void) => void;
     getRoomUsers: () => Promise<UserList>;
 };
