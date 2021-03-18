@@ -7,7 +7,7 @@
 require("dotenv").config();
 
 const readline = require("readline");
-const { raw: { connect }, wrap } = require('dogehouse-js');
+const { raw: { connect }, wrap } = require('../lib/index.js');
 
 const logger = (direction, opcode, data, fetchId, raw) => {
   const directionPadded = direction.toUpperCase().padEnd(3, " ");
@@ -47,16 +47,19 @@ const main = async () => {
     })
 
     connection.addListener("new_chat_msg", async ({ userId, msg }) => {
-      const text = msg.tokens.map(it => it.v).reduce((a, b) => a + b);
-      if(userId !== connection.user.id) {
+      const text = msg.isWhisper ?
+        msg.tokens.map(it => it.v).slice(1).reduce((a, b) => a + " " + b) :
+        msg.tokens.map(it => it.v).reduce((a, b) => a + " " + b);
+
+      if (userId !== connection.user.id) {
         process.stdout.cursorTo(0);
         console.log(`${msg.displayName} > ${text}`);
       }
 
       rl.prompt();
     });
-  } catch(e) {
-    if(e.code === 4001) console.error("invalid token!");
+  } catch (e) {
+    if (e.code === 4001) console.error("invalid token!");
   }
 };
 
