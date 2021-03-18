@@ -20,7 +20,9 @@ export const wrap = (connection: Connection) => ({
 
   leaveRoom: (): Promise<{ roomId: UUID }> =>
     connection.fetch("leave_room", {}, "you_left_room"),
-  listenForChatMsg: (callback): void => {
+  listenForChatMsg: (
+    callback: ({ userId, msg }: { userId: string; msg: Message }) => {}
+  ): void => {
     connection.addListener(
       "new_chat_msg",
       ({ userId, msg }: { userId: string; msg: Message }) =>
