@@ -12,4 +12,7 @@ export const wrap = (connection: Connection) => ({
   
   sendRoomChatMsg: (ast: MessageToken[], whisperedTo: string[] = []): Promise<void> =>
     connection.send("send_room_chat_msg", { tokens: ast, whisperedTo }),
+  
+  leaveRoom: (): Promise<{ roomId: UUID }> => 
+    connection.fetch("leave_room", {}, "you_left_room"),
 });
