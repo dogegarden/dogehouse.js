@@ -79,3 +79,17 @@ export type UserList = {
   autoSpeaker: false;
   activeSpeakerMap: { [key: string]: boolean };
 };
+
+export type Wrapper = {
+  getTopPublicRooms: () => Promise<Room[]>;
+  joinRoom: (id: UUID) => Promise<void>;
+  sendRoomChatMsg: (
+    ast: MessageToken[],
+    whisperedTo: string[]
+  ) => Promise<void>;
+  leaveRoom: () => Promise<{ roomId: UUID }>;
+  listenForChatMsg: (
+    callback: ({ userId, msg }: { userId: string; msg: Message }) => void
+  ) => void;
+  getRoomUsers: () => Promise<UserList>;
+};
