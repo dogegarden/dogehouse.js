@@ -9,6 +9,7 @@
   },
   "bundleDependencies": false,
   "dependencies": {
+    "colors": "^1.4.0",
     "dotenv": "^8.2.0",
     "isomorphic-ws": "^4.0.1",
     "reconnecting-websocket": "^4.4.0",
