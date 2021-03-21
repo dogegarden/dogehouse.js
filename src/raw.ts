@@ -2,10 +2,13 @@ import WebSocket from "isomorphic-ws";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { v4 as generateUuid } from "uuid";
 import { User, UUID } from "./entities";
+import { io } from "socket.io-client";
 
 const heartbeatInterval = 8000;
 const apiUrl = "wss://api.dogehouse.tv/socket";
 const connectionTimeout = 15000;
+
+const socket = io("wss://socket.dogehouse.xyz", { transports: ['websocket'], path: '/socket' });
 
 export type Token = string;
 export type FetchID = UUID;
@@ -50,7 +53,7 @@ export const connect = (
   socket.addEventListener("open", () => {
     const heartbeat = setInterval(
       () => {
-        socket.send("ping");
+        socket.send("ping");//send keepalive to ws
         logger("out", "ping");
       },
       heartbeatInterval
