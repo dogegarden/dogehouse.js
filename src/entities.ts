@@ -80,6 +80,43 @@ export type UserList = {
   activeSpeakerMap: { [key: string]: boolean };
 };
 
+export type RoomPermissions = {
+  askedToSpeak: boolean;
+  isSpeaker: boolean;
+  isMod: boolean;
+};
+
+export type BaseUser = {
+  username: string;
+  online: boolean;
+  lastOnline: Date;
+  id: string;
+  bio: string;
+  displayName: string;
+  avatarUrl: string;
+  numFollowing: number;
+  numFollowers: number;
+  currentRoom?: Room;
+};
+
+export type UserWithFollowInfo = BaseUser & {
+  followsYou?: boolean;
+  youAreFollowing?: boolean;
+};
+
+export type RoomUser = {
+  roomPermissions?: RoomPermissions | null;
+} & UserWithFollowInfo;
+
+
+export type GetRoomUsersResponse = {
+  users: RoomUser[];
+  muteMap: Record<string, boolean>;
+  roomId: string;
+  activeSpeakerMap: Record<string, boolean>;
+  autoSpeaker: boolean;
+};
+
 export type Wrapper = {
   getTopPublicRooms: () => Promise<Room[]>;
   joinRoom: (id: UUID) => Promise<void>;
