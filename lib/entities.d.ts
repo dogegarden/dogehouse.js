@@ -78,6 +78,37 @@ export declare type UserList = {
         [key: string]: boolean;
     };
 };
+export declare type RoomPermissions = {
+    askedToSpeak: boolean;
+    isSpeaker: boolean;
+    isMod: boolean;
+};
+export declare type BaseUser = {
+    username: string;
+    online: boolean;
+    lastOnline: Date;
+    id: string;
+    bio: string;
+    displayName: string;
+    avatarUrl: string;
+    numFollowing: number;
+    numFollowers: number;
+    currentRoom?: Room;
+};
+export declare type UserWithFollowInfo = BaseUser & {
+    followsYou?: boolean;
+    youAreFollowing?: boolean;
+};
+export declare type RoomUser = {
+    roomPermissions?: RoomPermissions | null;
+} & UserWithFollowInfo;
+export declare type GetRoomUsersResponse = {
+    users: RoomUser[];
+    muteMap: Record<string, boolean>;
+    roomId: string;
+    activeSpeakerMap: Record<string, boolean>;
+    autoSpeaker: boolean;
+};
 export declare type Wrapper = {
     getTopPublicRooms: () => Promise<Room[]>;
     joinRoom: (id: UUID) => Promise<void>;

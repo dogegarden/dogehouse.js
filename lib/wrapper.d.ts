@@ -1,5 +1,5 @@
 import { Connection } from "./raw";
-import { MessageToken, Room, UUID, Message, UserList } from "./entities";
+import { MessageToken, Room, UUID, Message, UserList, GetRoomUsersResponse } from "./entities";
 export declare const wrap: (connection: Connection) => {
     getTopPublicRooms: () => Promise<Room[]>;
     joinRoom: (id: UUID) => Promise<void>;
@@ -11,5 +11,6 @@ export declare const wrap: (connection: Connection) => {
         userId: string;
         msg: Message;
     }) => void) => void;
+    getCurrentRoomUsers: () => Promise<GetRoomUsersResponse>;
     getRoomUsers: () => Promise<UserList>;
 };
