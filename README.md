@@ -2,6 +2,7 @@
   <img src="https://cdn.discordapp.com/attachments/820450983892222022/820961073980899328/dogegarden-bottom-cropped.png" alt="DogeGarden logo" />
 </p>
 <p align="center">
+  <strong>STAGING</strong>
   <strong>Client-side implementation of DogeHouse API. 🐶</strong>
 </p>
 <p align="center">
@@ -20,6 +21,9 @@
 </h3>
 
 ---
+
+## Staging Version
+This version is where development is made and new features are added. Master branch is the current npm package and version.
 
 ## NPM Package
 
