@@ -1,70 +1,16 @@
-// In this example we will search for all public rooms
-// Get the highest one which is provided for us by DogeHouse
-// Join it and setup 2-way terminal chat.
+/**
+ * In this example you will see how you can send, 
+ * revieve, and reply to chat messages.
+ */
 
-// All using the wrapper to fetch and send data.
+const { Client } = require('dogehouse-js');
+const app = new Client();
 
-require("dotenv").config();
+app.connect(process.env.DOGEHOUSE_TOKEN, process.env.DOGEHOUSE_REFRESH_TOKEN).then(async () => {
+    console.log('Bot connected!');
+    app.rooms.join("YOUR ROOM ID");
+});
 
-const colors = require("colors");
-const readline = require("readline");
-const { raw: { connect }, wrap } = require('../lib/index.js');
-
-const logger = (direction, opcode, data, fetchId, raw) => {
-  const directionPadded = direction.toUpperCase().padEnd(3, " ");
-  const fetchIdInfo = fetchId ? ` (fetch id ${fetchId})` : "";
-  console.info(`${directionPadded} "${opcode}"${fetchIdInfo}: ${raw}`);
-};
-
-const main = async () => {
-  try {
-    const connection = await connect(
-      process.env.DOGEHOUSE_TOKEN,
-      process.env.DOGEHOUSE_REFRESH_TOKEN,
-      {
-        onConnectionTaken: () => {
-          console.error('Another web socket connection has been opened. This usally means that you have logged in from somewhere else.');
-        }
-      }
-    );
-
-    const wrapper = wrap(connection);
-
-    const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-      prompt: `${connection.user.displayName} > `
-    })
-
-    const rooms = await wrapper.getTopPublicRooms();
-    const theRoom = rooms[0];
-
-    console.log(`=> joining room "${theRoom.name}" (${theRoom.numPeopleInside} people)`);
-    await wrapper.joinRoom(theRoom.id);
-
-    rl.prompt();
-    rl.on("line", async input => {
-      await wrapper.sendRoomChatMsg([{ t: "text", v: input }]);
-    })
-
-    connection.addListener("new_chat_msg", async ({ userId, msg }) => {
-      const text = msg.isWhisper ?
-        msg.tokens.map(it => it.v).slice(1).reduce((a, b) => a + " " + b) :
-        msg.tokens.map(it => it.v).reduce((a, b) => a + " " + b);
-
-      if (userId !== connection.user.id) {
-        process.stdout.clearLine();
-        process.stdout.cursorTo(0);
-
-        const whisperText = msg.isWhisper ? `whisper`.bgBlue.white + " " : "";
-        console.log(`${msg.displayName} > ${whisperText}${text}`);
-      }
-
-      rl.prompt();
-    });
-  } catch (e) {
-    if (e.code === 4001) console.error("invalid token!");
-  }
-};
-
-main();
+app.on('newChatMessage', msg => {
+    console.log(`${msg.author.username}: ${msg}`); // Log user messages to console
+});

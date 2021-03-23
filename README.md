@@ -51,31 +51,13 @@ DOGEHOUSE_REFRESH_TOKEN=<refresh-token>
 ### JavaScript Example - Get Popular Rooms
 
 ```js
-const {
-  raw: { connect },
-  wrap
-} = require('dogehouse-js');
+const { Client } = require('dogehouse-js');
+const app = new Client();
 
-(async () => {
-  try {
-    const connection = await connect(
-      process.env.DOGEHOUSE_TOKEN,
-      process.env.DOGEHOUSE_REFRESH_TOKEN,
-      {
-        onConnectionTaken: () => {
-          console.error(
-            'Another web socket connection has been opened. This usually means that you have logged in from another location.'
-          );
-        }
-      }
-    );
-
-    const wrapper = wrap(connection);
-    const rooms = await wrapper.getTopPublicRooms();
-  } catch (e) {
-    console.error(e.code === 4001 ? 'Invalid token!' : 'Something went wrong.');
-  }
-})();
+app.connect(process.env.DOGEHOUSE_TOKEN, process.env.DOGEHOUSE_REFRESH_TOKEN).then(async () => {
+    console.log('Bot connected!');
+    console.log(await app.rooms.top); // Log all of your top rooms to console
+});
 ```
 
 ## Credits
