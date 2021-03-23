@@ -2,7 +2,7 @@
   <img src="https://cdn.discordapp.com/attachments/820450983892222022/820961073980899328/dogegarden-bottom-cropped.png" alt="DogeGarden logo" />
 </p>
 <p align="center">
-  <strong>STAGING</strong>
+  <strong>STAGING</strong><br>
   <strong>Client-side implementation of DogeHouse API. 🐶</strong>
 </p>
 <p align="center">
