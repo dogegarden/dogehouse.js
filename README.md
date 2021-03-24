@@ -1,3 +1,4 @@
+
 <p align="center">
   <img src="https://cdn.discordapp.com/attachments/820450983892222022/820961073980899328/dogegarden-bottom-cropped.png" alt="DogeGarden logo" />
 </p>
@@ -22,14 +23,14 @@
 ---
 ## NPM Package
 
-  <img src="https://img.shields.io/npm/v/dogehouse.s?style=for-the-badge">
-- Our NPM package is the quickest and easiest way to jump in with dogehouse-js.
-
-- NPM: https://www.npmjs.com/package/dogehouse.js
+  <img src="https://img.shields.io/npm/v/dogehouse.js?style=for-the-badge">
+  
+- Our NPM package is the quickest and easiest way to jump in with dogehouse.js.
+- NPM  Package [here](https://www.npmjs.com/package/dogehouse.js)
 
 ## Installation
 
-1. Go to https://dogehouse.tv
+1. Go to [DogeHouse](https://dogehouse.tv)
 2. Open Developer options (F12 or Ctrl+Shift+I)
 3. Go to Application > Local Storage > dogehouse.tv
 4. Copy your token and refresh-token and put them in an .env file:
@@ -39,13 +40,13 @@ DOGEHOUSE_TOKEN=<token>
 DOGEHOUSE_REFRESH_TOKEN=<refresh-token>
 ```
 
-5. Install NodeJS and NPM.
+5. Install [NodeJS](https://nodejs.org/en/) and [NPM](https://www.npmjs.com/).
 
 ## Wrapper
 
 ### The goal of the Wrapper is to provide premade functions for your ease.
 
-- All examples like, sending messages, joining rooms and more are in /examples.
+- All examples like, sending messages, joining rooms and more are in [/examples.](https://github.com/dogegarden/dogehouse.js/tree/master/examples)
 
 ### JavaScript Example - Get Popular Rooms
 
@@ -60,4 +61,4 @@ app.connect(process.env.DOGEHOUSE_TOKEN, process.env.DOGEHOUSE_REFRESH_TOKEN).th
 
 ## Credits
 
-Thank you to Abalon#2525/https://github.com/alon-abadi for the awesome logo!
+Thank you to [ Abalon#2525 ](https://github.com/alon-abadi) for the awesome logo!
