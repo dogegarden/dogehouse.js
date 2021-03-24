@@ -1,10 +1,10 @@
 {
 	"author": {
 		"name": "DogeGarden",
-		"url": "https://github.com/dogegarden/dogehouse-js"
+		"url": "https://github.com/dogegarden"
 	},
 	"bugs": {
-		"url": "https://github.com/dogegarden/dogehouse-js"
+		"url": "https://github.com/dogegarden/dogehouse.js"
 	},
 	"bundleDependencies": false,
 	"dependencies": {
@@ -15,14 +15,15 @@
 		"socket.io-client": "^4.0.0"
 	},
 	"deprecated": false,
-	"description": "Client-side implementation of DogeHouse API.",
+	"description": "Client-side implementation of DogeHouse API. Create chat & music bots with ease.",
 	"keywords": [
 		"dogehouse",
 		"dogegarden",
-		"dogehouse-js"
+		"dogehouse-js",
+		"dogehouse.js"
 	],
 	"license": "MIT",
 	"main": "index.js",
-	"name": "dogehouse.js-staged",
-	"version": "2.0.0-b3"
+	"name": "dogehouse.js",
+	"version": "2.0.0"
 }
