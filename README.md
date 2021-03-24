@@ -42,14 +42,12 @@ DOGEHOUSE_REFRESH_TOKEN=<refresh-token>
 
 5. Install [NodeJS](https://nodejs.org/en/) and [NPM](https://www.npmjs.com/).
 
-## Wrapper
+## Examples
 
-### The goal of the Wrapper is to provide premade functions for your ease.
+- All examples like, sending messages, joining rooms, music, moderation and more are in [/examples.](https://github.com/dogegarden/dogehouse.js/tree/master/examples)
 
-- All examples like, sending messages, joining rooms and more are in [/examples.](https://github.com/dogegarden/dogehouse.js/tree/master/examples)
-
-### JavaScript Example - Get Popular Rooms
-
+### JavaScript Example
+- Get Popular Rooms
 ```js
 const { Client } = require('dogehouse.js');
 const app = new Client();
