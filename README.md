@@ -10,10 +10,13 @@
     <img src="https://img.shields.io/discord/820442045264691201?style=for-the-badge" alt="discord - users online" />
   </a>
   <img src="https://img.shields.io/npm/v/dogehouse.js?style=for-the-badge">
+  <img src="https://img.shields.io/npm/dw/dogehouse.js?style=for-the-badge">
 </p>
 
-<h3 align="center">  
-  <a href="CONTRIBUTING.md">Contribute (soon)</a>
+<h3 align="center">
+  <a href="https://dogehouse.xyz">Website</a>
+  <span> . </span>
+  <a href="https://github.com/dogegarden/dogehouse.js/blob/master/Documentation/CONTRIBUTION.md">Contributing</a>
   <span> · </span>
   <a href="https://discord.gg/Nu6KVjJYj6">Discord</a>
   <span> · </span>
@@ -21,12 +24,10 @@
 </h3>
 
 ---
-## NPM Package
+## NPM Package <img src="https://img.shields.io/npm/v/dogehouse.js?style=for-the-badge">
 
-  <img src="https://img.shields.io/npm/v/dogehouse.js?style=for-the-badge">
-  
 - Our NPM package is the quickest and easiest way to jump in with dogehouse.js.
-- NPM  Package [here](https://www.npmjs.com/package/dogehouse.js)
+- [dogehouse.js package](https://www.npmjs.com/package/dogehouse.js)
 
 ## Installation
 
