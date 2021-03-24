@@ -13,7 +13,7 @@
 </p>
 
 <h3 align="center">  
-  <a href="CONTRIBUTING.md">Contribute (soon)</a>
+  <a href="https://github.com/dogegarden/dogehouse.js/blob/master/CONTRIBUTION.md">Contribute</a>
   <span> · </span>
   <a href="https://discord.gg/Nu6KVjJYj6">Discord</a>
   <span> · </span>
