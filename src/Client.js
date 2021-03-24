@@ -228,13 +228,12 @@ class Client extends EventEmitter {
                     if (this._sendTelemetry) {
                         this._telemetry.init();
                     }
-
+		}, 1000)
 
                     const hb = (() => {
                         socket.send("ping"); 
                         if (this._sendTelemetry) this._telemetry.transmit()
                     });
-		}, 10000)
                     const heartbeat = setInterval(hb, CONNECTION.HEARTBEAT_INTERVAL);
 
 				socket.addEventListener('close', (err) => {
