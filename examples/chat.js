@@ -1,8 +1,3 @@
-/**
- * In this example you will see how you can send, 
- * revieve, and reply to chat messages.
- */
-
 const { Client } = require('dogehouse.js');
 const app = new Client();
 
