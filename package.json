@@ -1,12 +1,12 @@
 {
-  "author": {
-    "name": "DogeGarden",
-    "url": "https://github.com/dogegarden/dogehouse-js"
-  },
-  "bugs": {
-    "url": "https://github.com/dogegarden/dogehouse-js"
-  },
-  "bundleDependencies": false,
+	"author": {
+		"name": "DogeGarden",
+		"url": "https://github.com/dogegarden/dogehouse-js"
+	},
+	"bugs": {
+		"url": "https://github.com/dogegarden/dogehouse-js"
+	},
+	"bundleDependencies": false,
 	"dependencies": {
 		"doge-utils": "0.0.3",
 		"isomorphic-ws": "^4.0.1",
@@ -14,15 +14,15 @@
 		"socket.io": "^4.0.0",
 		"socket.io-client": "^4.0.0"
 	},
-  "deprecated": false,
-  "description": "Client-side implementation of DogeHouse API.",
-  "keywords": [
-    "dogehouse",
-    "dogegarden",
-    "dogehouse-js"
-  ],
-  "license": "MIT",
-  "main": "index.js",
-  "name": "dogehouse.js",
-  "version": "2.0.0-b1"
+	"deprecated": false,
+	"description": "Client-side implementation of DogeHouse API.",
+	"keywords": [
+		"dogehouse",
+		"dogegarden",
+		"dogehouse-js"
+	],
+	"license": "MIT",
+	"main": "index.js",
+	"name": "dogehouse.js-staged",
+	"version": "2.0.0-b3"
 }
