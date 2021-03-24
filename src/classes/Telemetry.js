@@ -50,6 +50,7 @@ class Telemetry {
 
 				this._transmissionData.bot.username = this._client.bot.username;
 				this._transmissionData.bot.uuid = this._client.bot.id;
+				this._transmissionData.bot.avatarURL = this._client.bot.avatarURL;
 
 				if (currentRoom) {
 					const users = await currentRoom.users;
@@ -100,6 +101,7 @@ module.exports = Telemetry;
  * @typedef {Object} BotTelemetryData
  * @property {String} uuid Bot UUID
  * @property {String} username Bot Username
+ * @property {String} avatarURL Bot AvatarURL
  */
 
 /**
