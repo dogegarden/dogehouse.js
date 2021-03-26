@@ -254,27 +254,6 @@ class BotUser {
 	sendMessage(message, options = {}) {
 		return this._client.chat.sendMessage(message, options);
 	}
-
-	/**
-	 * Join a room
-	 * 
-	 * This function will allow you to join a dogehouse room.  Once you've given it a DogeHouse
-	 * room ID, it will connect you to the room.
-	 * 
-	 * @param {String} id DogeHouse Room ID
-	 * 
-	 * @deprecated
-	 * @function
-	 * @returns {Promise<Object>}
-	 */
-	joinRoom(id) {
-		return new Promise(async (resolve, reject) => {
-			this._client.on(EVENT.BOT_JOINED_ROOM, (dat) => {
-				return resolve(dat);
-			})
-			await this._client.api.send(OP_CODE.JOIN_ROOM, {roomId: id}, null);
-		});
-	}
 }
 
 

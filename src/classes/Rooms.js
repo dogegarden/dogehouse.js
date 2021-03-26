@@ -111,7 +111,7 @@ class Rooms {
 						(('room' in roomUnresolved) && ('id' in roomUnresolved.room))
 						? (roomUnresolved.room.id)
 						: (
-							(('d' in roomUnresolved) && ('user' in roomUnresolved.d) && ('id' in roomUnresolved.d.user))
+							(('d' in roomUnresolved) && ('room' in roomUnresolved.d) && ('id' in roomUnresolved.d.user))
 							? roomUnresolved.d.user.id
 							: 'REJECT_INVALID'
 						)

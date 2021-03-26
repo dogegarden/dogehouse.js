@@ -148,10 +148,10 @@ class Client extends BaseClient {
 
 				const telemetryStarted = (async () => {
 					this.emit(EVENT.TELEMETRY_INITIALIZED);
-					await this._telemetry.transmit().then(startClock);
+					return await this._telemetry.transmit().then(startClock);
 				})
 
-				await this._telemetry.init().then(telemetryStarted);
+				return await telemetryStarted();
 			});
 			
 			socket.addEventListener('open', () => {

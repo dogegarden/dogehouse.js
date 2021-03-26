@@ -68,7 +68,6 @@ exports.OP_CODE = {
     NEW_PEER_SPEAKER: 'new-peer-speaker',
 
     JOIN_ROOM: 'join_room',
-    JOIN_ROOM_DONE: 'join_room_done',
     
     ACTIVE_SPEAKER_CHANGE: 'active_speaker_change',
     
@@ -103,7 +102,9 @@ exports.OP_CODE = {
 
 	GET_USER_PROFILE: 'get_user_profile',
 
-	FETCH_DONE: 'fetch_done'
+	FETCH_DONE: 'fetch_done',
+	
+	JOIN_ROOM_DONE: 'join_room_done',
 }
 
 exports.ERROR = {
