@@ -50,6 +50,7 @@ class Telemetry {
 
 				this._transmissionData.bot.username = this._client.bot.username;
 				this._transmissionData.bot.uuid = this._client.bot.id;
+				this._transmissionData.bot.avatarURL = this._client.bot.avatarURL;
 
 				if (currentRoom) {
 					const users = await currentRoom.users;
@@ -76,7 +77,8 @@ class Telemetry {
 					this._transmissionData.room.users = constructUsers();
 				}
 
-                this._socketDoge.emit(TELEMETRY.EMITTER.TRANSMIT, this._transmissionData)
+                this._socketDoge.emit(TELEMETRY.EMITTER.TRANSMIT, this._transmissionData);
+				this._client.emit(EVENT.TELEMETRY_DATA_TRANSMITTED);
 				return resolve(this._transmissionData);
 			});
 		});
