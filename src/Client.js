@@ -1,25 +1,21 @@
-const EventEmitter = require('events');
-const isoWS = require('isomorphic-ws');
-const ReconnectingWebSocket = require('reconnecting-websocket');
-const API = require('./classes/API');
-const io = require('socket.io-client');
 const fs = require('fs');
 const path = require('path');
-const { CONNECTION, EVENT, OP_CODE } = require('./util/constraints');
-const BotUser = require('./classes/BotUser');
-const UserController = require('./controllers/UserController');
-const { messageToString } = require('doge-utils/messageToString');
-const MessageController = require('./controllers/MessageController');
-const Users = require('./classes/Users');
-const { resolve } = require('path');
+const API = require('./classes/API');
+const isoWS = require('isomorphic-ws');
+const Chat = require('./classes/Chat');
 const Rooms = require('./classes/Rooms');
-const { default: Collection } = require('./util/Collection');
+const Users = require('./classes/Users');
+const BaseClient = require('./BaseClient');
+const BotUser = require('./classes/BotUser');
 const Telemetry = require('./classes/Telemetry');
+const { default: Collection } = require('./util/Collection');
+const ReconnectingWebSocket = require('reconnecting-websocket');
+const { CONNECTION, EVENT, OP_CODE, TELEMETRY } = require('./util/constraints');
 
 /**
- * @extends {EventEmitter}
+ * @extends {BaseClient}
  */
-class Client extends EventEmitter {
+class Client extends BaseClient {
 
 	/**
 	 * @param {ClientOptions} options Client Options
@@ -27,44 +23,28 @@ class Client extends EventEmitter {
 	constructor(options = {}) {
 		super(); // Call the Event Emitter
 
-		/**
-		 * @type {Date} When did the bot start
-		 * @private
-		 */
+		/** @private */
 		this._startTime = null;
 
-		/**
-		 * @type {Telemetry}
-		 * @private
-		 */
+		/** @private */
 		this._telemetry = null;
 
-		/**
-		 * @type {Boolean} Send Telemetry Data?
-		 * @private
-		 */
+		/** @private */
 		this._sendTelemetry = ((options.sendTelemetry !== undefined) ? options.sendTelemetry : true);
 
-		/**
-		 * @type {?Date} Date the bot the connected
-	 	 * @private
-		 */
+		/** @private */
+		this._blockAngular = ((options.blockAngular !== undefined) ? options.sendTelemetry : false);
+
+		/** @private */
 		this._connectionDate = null;
 
-		/**
-		 * @type {Object} Bot User Data;
-		 * @private
-		 */
+		/** @private */
 		this._botUser = null;
 
-		/**
-		 * @type {ReconnectingWebSocket.default} Websocket
-		 */
+		/** @type {ReconnectingWebSocket.default} */
 		this.socket = null;
 
-		/**
-         * @type {API}
-         */
+		/** @type {API} */
 		this.api = null;
 
 		/**
@@ -80,10 +60,10 @@ class Client extends EventEmitter {
 		this.rooms = new Rooms(this);
 
 		/**
-		 * @type {Collection<String, Function>}
-		 * @private
+		 * Provides access to all the juicy chat functionality
+		 * @type {Chat}
 		 */
-		this._eventCache = new Collection();
+		this.chat = new Chat(this);
 
 		/**
 		 * Listener Cache
@@ -99,16 +79,17 @@ class Client extends EventEmitter {
 			}
 		}
 
-		this.onMessage((msg, rid) => {
-			const { op } = msg;
-			if (this._onMessageOnceQueue.has(op)) {
-				const queue = this._onMessageOnceQueue.get(op);
-				while (queue.length) {
-					const callback = queue.shift();
-					callback(msg, rid);
-				}
-			}
-		});
+		/**
+		 * @type {Collection<String, any>}
+		 * @private
+		 */
+		this._hooks = new Collection();
+
+		/**
+		 * @type {Collection<String, Function>}
+		 * @private
+		 */
+		this._eventCache = new Collection();
 	}
 
 	/**
@@ -132,77 +113,6 @@ class Client extends EventEmitter {
 	}
 
 	/**
-	 * On Message
-	 * 
-	 * When called, this function will callback to the callback function every
-	 * single time the api recieves a message from the DogeHouse Bakend API.
-	 * 
-	 * @param {Function} callback Callback function
-	 * 
-	 * @function
-	 */
-	onMessage(callback) {
-		this.on(EVENT.SOCKET_MESSAGE, (msg, rid) => {
-			callback(msg, rid);
-		});
-	}
-
-	/**
-	 * 
-	 * When called, this function will run the callback
-	 * if the opcode matches
-	 * 
-	 * @param {OP_CODE} opcode The opcode
-	 * @param {Function} callback Callback function
-	 * 
-	 */
-	onMessageOnce(opcode, callback) {
-		if (this._onMessageOnceQueue.has(opcode)) {
-			this._onMessageOnceQueue.get(opcode).push(callback);
-		} else {
-			this._onMessageOnceQueue.set(opcode, [callback]);
-		}
-	}
-
-	onMessageOncePromise(opcode) {
-		return new Promise((resolve, _reject) => {
-			this.onMessageOnce(opcode, resolve);
-		});
-	}
-
-	/**
-	 * Internal onMessageOne queue Map
-	 * 
-	 * @type {Map<OP_CODE, Function[]>}
-	 * @private
-	 */
-	_onMessageOnceQueue = new Map();
-
-
-	
-
-	/**
-	 * Register Events
-	 * 
-	 * @param {String} dir Events Directory
-	 * 
-	 * @private
-	 * @function
-	 * @returns {Promise<any>}
-	 */
-	registerEvents(dir) {
-		return new Promise(async (resolve, reject) => {
-			fs.readdir(dir, async (err, files) => {
-				for (const f of files) {
-					const fn = require(path.resolve(dir, f));
-					this._eventCache.set(f.split('.')[0], fn);
-				}
-				return resolve();
-			});
-		});
-	}
-
-	/**
 	 * Connect the bot.
 	 * 
 	 * This function will take the token and the refresh token and use them
@@ -218,28 +128,48 @@ class Client extends EventEmitter {
 		return new Promise(async (resolve, reject) => {
 			const options = { connectionTimeout: CONNECTION.CONNECTION_TIMEOUT, WebSocket: isoWS }
 			const socket = new ReconnectingWebSocket(CONNECTION.API_URL, [], options);
+
+			if (!token) throw new Error('Token must be defined to connect to Dogehouse.');
+			if (!refreshToken) throw new Error('Refresh token must be defined to connect to Dogehouse');
 			
 			this._telemetry = new Telemetry(this);
 			this.api = new API(this);
 			this.socket = socket;
+
+			const hb = (() => { socket.send("ping"); });
+			const startTelemetry = (async () => {
+				if (!this._sendTelemetry) return;
+
+				const startClock = (async () => {
+					setInterval(async () => {
+						await this._telemetry.transmit();
+					}, TELEMETRY.INTERVAL);
+				})
+
+				const telemetryStarted = (async () => {
+					this.emit(EVENT.TELEMETRY_INITIALIZED);
+					await this._telemetry.transmit().then(startClock);
+				})
+
+				await this._telemetry.init().then(telemetryStarted);
+			});
 			
 			socket.addEventListener('open', () => {
-                setTimeout(() => {
-                    if (this._sendTelemetry) {
-                        this._telemetry.init();
-                    }
-				}, 500)
-
-                    const hb = (() => {
-                        socket.send("ping"); 
-                        if (this._sendTelemetry) this._telemetry.transmit()
-                    });
-                    const heartbeat = setInterval(hb, CONNECTION.HEARTBEAT_INTERVAL);
+                const heartbeat = setInterval(hb, CONNECTION.HEARTBEAT_INTERVAL);
 
 				socket.addEventListener('close', (err) => {
-					clearInterval(heartbeat);
-					if (err.code == 4003) return this.emit(EVENT.CONNECTION_TAKEN);
-					return reject(err)
+
+					// 4003 - Connection Taken
+					// 4001 - Invalid Authentication
+					// 1011 - Invalid or missing authentication/refresh token
+
+					if (err.code == 4003) return reject(new Error('Unable to authenticate connection.'));
+					if (err.code == 4001) return reject(new Error('Socket connection taken.'));
+					if (err.code == 1011) return reject(new Error('Invalid or missing tokens'));
+
+					clearInterval(heartbeat);					
+
+					return reject(new Error('Unknown Error'));
 				});
 
 				this.api.authenticate(token, refreshToken).then(socketAuthenticated => {
@@ -256,16 +186,19 @@ class Client extends EventEmitter {
 					this._botUser = new BotUser(msg.d, this);
 					this._startTime = new Date();
 
+					startTelemetry();
+
 					this.emit(EVENT.READY);
 					return resolve(this);
 				}
 			});
 
 
-			await this.registerEvents(path.resolve(__dirname, 'events')).then(() => {
-				this._eventCache.forEach(fn => {if (fn instanceof Function) fn(this)});
+			await this.registerEvents(path.resolve(__dirname, 'events')).then(async () => {
+				await this._eventCache.forEach(fn => {if (fn instanceof Function) fn(this)});
+				await this.registerHooks(path.resolve(__dirname, 'hooks'));
 			});
-		})
+		});
 	}
 }
 
@@ -274,4 +207,5 @@ module.exports = Client;
 /**
  * @typedef {Object} ClientOptions
  * @property {Boolean} [sendTelemetry] Would you like to send Telemetry data back to the DogeGarden team?
+ * @property {Boolean} [blockAngular] Would you like to block the word angular from being said in chat?  Enable this!
  */

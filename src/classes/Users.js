@@ -1,7 +1,7 @@
 const Client = require("../Client");
 const UserController = require("../controllers/UserController");
 const { default: Collection } = require("../util/Collection");
-const { EVENT } = require("../util/constraints");
+const { EVENT, OP_CODE } = require("../util/constraints");
 
 class Users {
 	/**
@@ -40,18 +40,27 @@ class Users {
 	/**
 	 * Get User
 	 * 
-	 * This function will get a user by their user id.  If they are in the user cache, it will
+	 * This function will get a user by their user_id or username.  If they are in the user cache, it will
 	 * pull that, otherwise it will add them to the cache.
 	 * 
-	 * @param {String} id User ID
+	 * @type {Promise<UserController> | UserController}
+	 * @param {String} value User ID or Username
 	 */
-	get (id) {
-		if (this._userControllerCache.has(id)) {
-			return this._userControllerCache.get(id);
-		} else {
-            // ... Get User Information Manually
-            return null;
-        }
+	get (value) {
+
+		if (this._userControllerCache.has(value)) {
+			return this._userControllerCache.get(value);
+		}
+
+		const ctlByName = this._userControllerCache.find(u => u.username === value);
+		if (ctlByName) return ctlByName;
+
+		const ctlByCaseI = this._userControllerCache.find(u => u.username.toLowerCase() === value.toLowerCase())
+		if (ctlByCaseI) return ctlByCaseI;
+
+		return new Promise(async (resolve, reject) => {
+			return resolve(this._client.api.fetchData(OP_CODE.GET_USER_PROFILE, {userId: value}));
+		});
 	}
 
 	/**
