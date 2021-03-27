@@ -6,7 +6,7 @@ exports.CONNECTION = {
 		RECONNECT_TO_VOICE: false,
 		CURRENT_ROOM_ID: null,
 		MUTED: false,
-		PLATFORM: 'The world wide web'
+		PLATFORM: 'dogehouse.js'
 	}
 }
 
