@@ -7,7 +7,7 @@ const { EVENT, OP_CODE } = require("../util/constraints")
 module.exports = (app) => {
     app.on(EVENT.READY, () => {
         setTimeout(() => {
-            app.onMessage(msg => {
+            app.api.onMessageAny(msg => {
                 if (msg.op == OP_CODE.GET_CURRENT_ROOM_USERS_DONE) {
                     const usrs = msg.d.users;
                     usrs.forEach(usr => {

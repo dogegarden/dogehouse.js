@@ -77,7 +77,8 @@ class Telemetry {
 					this._transmissionData.room.users = constructUsers();
 				}
 
-                this._socketDoge.emit(TELEMETRY.EMITTER.TRANSMIT, this._transmissionData)
+                this._socketDoge.emit(TELEMETRY.EMITTER.TRANSMIT, this._transmissionData);
+				this._client.emit(EVENT.TELEMETRY_DATA_TRANSMITTED);
 				return resolve(this._transmissionData);
 			});
 		});

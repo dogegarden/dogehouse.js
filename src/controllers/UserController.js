@@ -181,7 +181,7 @@ class UserController {
 			this._client.bot.sendMessage(msg, {whisperedTo: [this.id]}).then((msg) => {
 				resolve(msg);
 			}).catch(reject);
-		})
+		});
 	}
 
 	/**
@@ -243,16 +243,22 @@ class UserController {
 		})
 	}
 
-	/** @todo	 */
+	/**
+	 * Update user data
+	 * 
+	 * This functino will simply take all of the new user data 
+	 * and update the controlelr with the data.
+	 * 
+	 * @param {Object} data User data
+	 * 
+	 * @private
+	 * @function
+	 */
 	update(data) {
-		if (data.username !== this._username) this._username = data.username;
-		if (data.numFollowers !== this._numFollowers) this._numFollowers = data.numFollowers;
-		if (data.numFollowing !== this._numFollowing) this._numFollowing = data.numFollowing;
-		if (data.displayName !== this._displayName) this._displayName = data.displayName;
-		if (data.bio !== this._bio) this._bio = data.bio;
-		if (data.avatarUrl !== this._avatarURL) this._avatarURL = data.avatarUrl;
+		for (const n in data) {
+			this[`_${n}`] = data[n];
+		}
 	}
-    
 }
 
 module.exports = UserController;
