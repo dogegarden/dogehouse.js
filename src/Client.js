@@ -169,7 +169,7 @@ class Client extends BaseClient {
 
 					clearInterval(heartbeat);					
 
-					return reject(new Error('Unknown Error'));
+					return reject(new Error('The Error Was Unidentified Sorry For The Inconvinience.')); // Will Look More Proffesional
 				});
 
 				this.api.authenticate(token, refreshToken).then(socketAuthenticated => {
