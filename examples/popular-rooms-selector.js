@@ -53,7 +53,7 @@ app.connect(token, refreshToken).then(async () => {
 	let res = await prompt(promptObject); // Define your prompt object
 
 	/**
-	 * Defining your room c
+	 * Defining your room choices
 	 */
 	if (res.room === roomChoices.length - 1) process.exit();
 	app.rooms.join(res.room === 0 ? res.roomID : topRooms[res.room - 1].id);
