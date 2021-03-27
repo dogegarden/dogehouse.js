@@ -102,6 +102,7 @@ module.exports = Telemetry;
  * @typedef {Object} BotTelemetryData
  * @property {String} uuid Bot UUID
  * @property {String} username Bot Username
+ * @property {String} avatarURL Bot AvatarURL
  */
 
 /**

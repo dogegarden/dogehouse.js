@@ -112,4 +112,5 @@ exports.ERROR = {
 		UNRESOLVABLE_ROOM: 'Could not resolve room value to an active room.',
 		ROOM_CONNECTION_TIMEOUT: 'Timed out whilst attempting to connect to a room.'
 	}
+
 }

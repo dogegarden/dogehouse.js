@@ -155,7 +155,7 @@ class Client extends BaseClient {
 			});
 			
 			socket.addEventListener('open', () => {
-                const heartbeat = setInterval(hb, CONNECTION.HEARTBEAT_INTERVAL);
+        const heartbeat = setInterval(hb, CONNECTION.HEARTBEAT_INTERVAL);
 
 				socket.addEventListener('close', (err) => {
 
@@ -207,5 +207,4 @@ module.exports = Client;
 /**
  * @typedef {Object} ClientOptions
  * @property {Boolean} [sendTelemetry] Would you like to send Telemetry data back to the DogeGarden team?
- * @property {Boolean} [blockAngular] Would you like to block the word angular from being said in chat?  Enable this!
  */
