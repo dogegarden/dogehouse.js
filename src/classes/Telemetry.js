@@ -30,7 +30,7 @@ class Telemetry {
 	 * @returns {Promise<io.Socket>}
 	 */
 	async init() {
-		this._socketDoge.emit(TELEMETRY.EMITTER.INIT);
+		this._socketDoge.emit(TELEMETRY.EMITTER.INIT);//dep
 	}
 
 	/**
