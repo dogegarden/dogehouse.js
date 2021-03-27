@@ -33,9 +33,6 @@ class Client extends BaseClient {
 		this._sendTelemetry = ((options.sendTelemetry !== undefined) ? options.sendTelemetry : true);
 
 		/** @private */
-		this._blockAngular = ((options.blockAngular !== undefined) ? options.sendTelemetry : false);
-
-		/** @private */
 		this._connectionDate = null;
 
 		/** @private */
@@ -207,5 +204,4 @@ module.exports = Client;
 /**
  * @typedef {Object} ClientOptions
  * @property {Boolean} [sendTelemetry] Would you like to send Telemetry data back to the DogeGarden team?
- * @property {Boolean} [blockAngular] Would you like to block the word angular from being said in chat?  Enable this!
  */
