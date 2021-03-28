@@ -3,16 +3,13 @@ const path = require('path')
 const EventEmitter = require('events');
 const { EVENT } = require('./util/constraints');
 const { randomUUID } = require('./util/random');
+const RANDOM_STRING = `ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789`;
+const RANDOM_STRING_LENGTH = RANDOM_STRING.length;
 
 class BaseClient extends EventEmitter{
 	
 	constructor() {
 		super(); // Call Event Emitter
-	}
-
-	/** @private */
-	get randStrConst () {
-		return 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 	}
 
 	/**
@@ -28,10 +25,9 @@ class BaseClient extends EventEmitter{
 	 */
 	randStr(length) {
 		let result = '';
-		let charLength = this.randStrConst.length;
 
 		for (let i = 0; i < length; i++) {
-			result += this.randStrConst.charAt(Math.floor(Math.random() * charLength));
+		    result += RANDOM_STRING.charAt(Math.floor(Math.random() * RANDOM_STRING_LENGTH));
 		}
 
 		return result;
@@ -50,8 +46,8 @@ class BaseClient extends EventEmitter{
 	 * @returns {Promise<any>}
 	 */
 	registerEvents(dir) {
-		return new Promise(async (resolve, reject) => {
-			fs.readdir(dir, async (err, files) => {
+		return new Promise((resolve, reject) => {
+			fs.readdir(dir, (err, files) => {
 				for (const f of files) {
 					const fn = require(path.resolve(dir, f));
 					this._eventCache.set(f.split('.')[0], fn);
@@ -75,26 +71,27 @@ class BaseClient extends EventEmitter{
 	 * @returns {Promise<any>}
 	 */
 	registerHooks(dir) {
-		return new Promise(async (resolve, _reject) => {
-			fs.readdir(dir, async (err, files) => {
+		return new Promise((resolve, _reject) => {
+			fs.readdir(dir, (err, files) => {
 				for (const f of files) {
 					let hook;
 					const hk = require(path.resolve(dir, f));
-					if (!hk instanceof Object) return;
+					if (typeof hk !== `object`) return;
 					try {
 						hook = require.resolve(hk.package);
 					} catch (err) {
 						this.emit(EVENT.IMPORT_HOOK_FAILED, err);
 						return;
 					}
-					await this._hooks.set(hk.name || hk.package, require(hk.package));
+					this._hooks.set(hk.name || hk.package, require(hk.package));
 					this.emit(EVENT.IMPORT_HOOK_SUCCESS, this._hooks.get(hk.name));
-					return resolve();
 				}
+				return resolve();
 			})
 		})
 	}
 
+	// @TODO - unused - remove?
 	generateUUID() {
 		return randomUUID();
 	}
