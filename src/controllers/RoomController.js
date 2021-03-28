@@ -99,11 +99,11 @@ class RoomController {
 		return this._voiceServer;
 	}
 
-	/** 
+	/**
 	 * Get all of the users currently in the voice channel
-	 * 
+	 *
 	 * This will return a collection of all of the users currently in the room.
-	 * 
+	 *
 	 * @async
 	 * @type {Promise<Collection<String, UserController>>}
 	 * @returns {Collection<String, UserController>}
@@ -112,11 +112,12 @@ class RoomController {
 		return new Promise((resolve, _reject) => {
 			this._client.api.onMessageOnce(OP_CODE.GET_CURRENT_ROOM_USERS_DONE, (dat) => {
 				const usrs = new Collection();
-				dat.d.users.forEach(u => {
-					const controller = this._client.users.setUserData(u);
+				const promises = dat.d.users.map(async u => {
+					const controller = await this._client.users.setUserData(u);
 					usrs.set(controller.id, controller);
+					return usrs;
 				});
-				return resolve(usrs);
+				Promise.all(promises).then(resolve);
 			});
 			this._client.api.send(OP_CODE.GET_CURRENT_ROOM_USERS, {}, null);
 		});
