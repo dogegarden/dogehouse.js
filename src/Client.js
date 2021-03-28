@@ -1,4 +1,3 @@
-const fs = require('fs');
 const path = require('path');
 const API = require('./classes/API');
 const isoWS = require('isomorphic-ws');
@@ -102,10 +101,10 @@ class Client extends BaseClient {
 
 	/**
 	 * Get the bot
-	 * 
-	 * This will return the BotUser which has everything you need to work with the 
+	 *
+	 * This will return the BotUser which has everything you need to work with the
 	 * bot it will allow you to get all of the data about the bot.
-	 * 
+	 *
 	 * @type {BotUser}
 	 */
 	get bot() {
@@ -114,48 +113,44 @@ class Client extends BaseClient {
 
 	/**
 	 * Connect the bot.
-	 * 
+	 *
 	 * This function will take the token and the refresh token and use them
 	 * to connect to the DogeHouse API
-	 * 
+	 *
 	 * @param {String} token User token
 	 * @param {String} refreshToken User refresh token
-	 * 
+	 *
 	 * @function
 	 * @returns {Promise<Client>} Connected Client
 	 */
-	async connect(token, refreshToken) {
+	connect(token, refreshToken) {
 		return new Promise(async (resolve, reject) => {
 			const options = { connectionTimeout: CONNECTION.CONNECTION_TIMEOUT, WebSocket: isoWS }
 			const socket = new ReconnectingWebSocket(CONNECTION.API_URL, [], options);
 
 			if (!token) throw new Error('Token must be defined to connect to Dogehouse.');
 			if (!refreshToken) throw new Error('Refresh token must be defined to connect to Dogehouse');
-			
+
 			this._telemetry = new Telemetry(this);
 			this.api = new API(this);
 			this.socket = socket;
 
 			const hb = (() => { socket.send("ping"); });
-			const startTelemetry = (async () => {
+			const startTelemetry = () => {
 				if (!this._sendTelemetry) return;
 
-				const startClock = (async () => {
-					setInterval(async () => {
-						await this._telemetry.transmit();
+				const startClock = () => {
+					setInterval(() => {
+						this._telemetry.transmit();
 					}, TELEMETRY.INTERVAL);
-				})
+				}
 
-				const telemetryStarted = (async () => {
-					this.emit(EVENT.TELEMETRY_INITIALIZED);
-					return await this._telemetry.transmit().then(startClock);
-				})
+				this.emit(EVENT.TELEMETRY_INITIALIZED);
+				return this._telemetry.transmit().then(startClock);
+			};
 
-				return await telemetryStarted();
-			});
-			
 			socket.addEventListener('open', () => {
-        const heartbeat = setInterval(hb, CONNECTION.HEARTBEAT_INTERVAL);
+				const heartbeat = setInterval(hb, CONNECTION.HEARTBEAT_INTERVAL);
 
 				socket.addEventListener('close', (err) => {
 
@@ -167,14 +162,16 @@ class Client extends BaseClient {
 					if (err.code == 4001) return reject(new Error('Socket connection taken.'));
 					if (err.code == 1011) return reject(new Error('Invalid or missing tokens'));
 
-					clearInterval(heartbeat);					
+					clearInterval(heartbeat);
 
 					return reject(new Error('Unknown Error'));
 				});
 
-				this.api.authenticate(token, refreshToken).then(socketAuthenticated => {
-					this.socket = socketAuthenticated;
-				}).catch(err => {throw err;});
+				this.api.authenticate(token, refreshToken)
+					.then(socketAuthenticated => {
+						this.socket = socketAuthenticated;
+					})
+					.catch(err => {throw err;});
 			});
 			socket.addEventListener("message", (e, arrivedId) => {
 				const msg = JSON.parse(e.data);
@@ -194,10 +191,9 @@ class Client extends BaseClient {
 			});
 
 
-			await this.registerEvents(path.resolve(__dirname, 'events')).then(async () => {
-				await this._eventCache.forEach(fn => {if (fn instanceof Function) fn(this)});
-				await this.registerHooks(path.resolve(__dirname, 'hooks'));
-			});
+			await this.registerEvents(path.resolve(__dirname, 'events'));
+			this._eventCache.forEach(fn => {if (fn instanceof Function) fn(this)});
+			await this.registerHooks(path.resolve(__dirname, 'hooks'));
 		});
 	}
 }
