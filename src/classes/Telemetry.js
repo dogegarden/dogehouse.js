@@ -1,51 +1,37 @@
 const { EVENT, TELEMETRY } = require("../util/constraints");
 const io = require('socket.io-client');
-const Client = require("../Client");
 
 class Telemetry {
 
-    /**
-     * @param {Client} client 
-     */
+	/**
+	 * @param {Client} client
+	 */
 	constructor(client) {
 
-		/** 
-         * @private */
+		/**
+		 * @private */
 		this._client = client;
 
 		/**
 		 * @type {io.Socket}
 		 * @private
 		 */
-		this._socketDoge = io(TELEMETRY.URL, {transports: ['websocket'], path: TELEMETRY.PATH});	
-	}
-
-	/**
-	 * Initialize Telemetry Socket Connection
-	 * 
-	 * This function will initialize the bot connection with the DogeGarden API so that there
-	 * the bot can be recognized by the DogeHouse stats page.
-	 * 
-	 * @function
-	 * @returns {Promise<io.Socket>}
-	 */
-	async init() {
-		this._socketDoge.emit(TELEMETRY.EMITTER.INIT);//dep
+		this._socketDoge = io(TELEMETRY.URL, {transports: ['websocket'], path: TELEMETRY.PATH});
 	}
 
 	/**
 	 * Transmit Telemetry Data
-	 * 
+	 *
 	 * This function will take the data about the bot and the room that the bot is in
-	 * and transmit it to the DogeGarden API so that it can be publicly available and 
+	 * and transmit it to the DogeGarden API so that it can be publicly available and
 	 * archived.
-	 * 
-     * @function
-     * @returns {Promise<any>}
+	 *
+	 * @function
+	 * @returns {Promise<any>}
 	 */
 	transmit() {
-		return new Promise(async (resolve, _reject) => {
-			process.nextTick(async() => {
+		return new Promise((resolve, _reject) => {
+			process.nextTick(async () => {
 				const currentRoom = this._client.rooms.current;
 
 				this._transmissionData.bot.username = this._client.bot.username;
@@ -56,19 +42,20 @@ class Telemetry {
 					const users = await currentRoom.users;
 
 					const constructUsers = (() => {
-						let ret = []
-						users.filter(u => u.id !== this._client.bot.id).forEach(usr => {
-							ret.push({
-								id: usr.id,
-								bio: usr.bio,
-								avatarUrl: usr.avatarUrl,
-								username: usr.username,
-								displayName: usr.displayName,
-								numFollowers: usr.numFollowers,
-								numFollowing: usr.numFollowing
-							});
-						});
-						return ret;
+						return users.reduce(( ret, u ) => {
+							if ( u.id !== this._client.bot.id ) {
+								ret.push({
+									id: u.id,
+									bio: u.bio,
+									avatarUrl: u.avatarUrl,
+									username: u.username,
+									displayName: u.displayName,
+									numFollowers: u.numFollowers,
+									numFollowing: u.numFollowing
+								});
+							}
+							return ret;
+						}, []);
 					})
 
 					this._transmissionData.room.name = currentRoom.name;
@@ -77,16 +64,16 @@ class Telemetry {
 					this._transmissionData.room.users = constructUsers();
 				}
 
-                this._socketDoge.emit(TELEMETRY.EMITTER.TRANSMIT, this._transmissionData);
+				this._socketDoge.emit(TELEMETRY.EMITTER.TRANSMIT, this._transmissionData);
 				this._client.emit(EVENT.TELEMETRY_DATA_TRANSMITTED);
 				return resolve(this._transmissionData);
 			});
 		});
 	}
 
-    /** 
+	/**
 	 * @type {TelemetryData}
-	 * @private 
+	 * @private
 	 */
 	_transmissionData = {
 		bot: {},
