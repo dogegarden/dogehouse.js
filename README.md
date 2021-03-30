@@ -50,7 +50,6 @@ DOGEHOUSE_REFRESH_TOKEN=<refresh-token>
 ### JavaScript Example
 - Get Popular Rooms
 ```js
-require('dotenv').config();
 const { Client } = require('dogehouse.js');
 const app = new Client();
 app.connect(process.env.DOGEHOUSE_TOKEN, process.env.DOGEHOUSE_REFRESH_TOKEN).then(async () => {
