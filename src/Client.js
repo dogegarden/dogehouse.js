@@ -136,6 +136,8 @@ class Client extends BaseClient {
 			this.api = new API(this);
 			this.socket = socket;
 
+			let telemetryRunning = false;
+
 			const hb = (() => { socket.send("ping"); });
 			const startTelemetry = (async () => {
 				if (!this._sendTelemetry) return;
@@ -148,6 +150,7 @@ class Client extends BaseClient {
 
 				const telemetryStarted = (async () => {
 					this.emit(EVENT.TELEMETRY_INITIALIZED);
+					telemetryRunning = true;
 					return await this._telemetry.transmit().then(startClock);
 				})
 
@@ -186,7 +189,7 @@ class Client extends BaseClient {
 					this._botUser = new BotUser(msg.d, this);
 					this._startTime = new Date();
 
-					startTelemetry();
+					if (!telemetryRunning) startTelemetry();
 
 					this.emit(EVENT.READY);
 					return resolve(this);
