@@ -20,7 +20,7 @@
   <span> · </span>
   <a href="https://discord.gg/Nu6KVjJYj6">Discord</a>
   <span> · </span>
-  <a href="https://docs.dogehouse.xyz">Documentation</a>
+  <a href="https://wiki.dogehouse.xyz">Documentation</a>
 </h3>
 
 ---
