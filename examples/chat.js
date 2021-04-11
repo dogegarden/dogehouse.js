@@ -8,7 +8,7 @@
 
 require('dotenv').config(); // Get your bot tokens
 
-const { Client, EVENT } = require('dhjs-staged');
+const { Client, EVENT } = require('dogehouse.js');
 const app = new Client();
 
 const token = process.env.DOGEHOUSE_TOKEN;
