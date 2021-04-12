@@ -7,7 +7,7 @@
 </p>
 <p align="center">
   <a href="https://discord.gg/Nu6KVjJYj6">
-    <img src="https://img.shields.io/discord/820442045264691201?style=for-the-badge" alt="discord - users online" />
+    <img src="https://badgen.net/discord/online-members/Mczph2d5B4" alt="discord - users online" />
   </a>
   <img src="https://img.shields.io/npm/v/dogehouse.js?style=for-the-badge">
   <img src="https://img.shields.io/npm/dw/dogehouse.js?style=for-the-badge">
