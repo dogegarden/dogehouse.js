@@ -14,28 +14,31 @@ export interface CollectionConstructor {
  */
 class Collection<K, V> extends Map<K, V> {
 	private _array!: V[] | null;
+
 	private _keyArray!: K[] | null;
+
 	public static readonly default: typeof Collection = Collection;
+
 	public ['constructor']: typeof Collection;
 
 	public constructor(entries?: ReadonlyArray<readonly [K, V]> | null) {
-		super(entries);
+	  super(entries);
 
-		/**
+	  /**
 		 * Cached array for the `array()` method - will be reset to `null` whenever `set()` or `delete()` are called
 		 * @name Collection#_array
 		 * @type {?Array}
 		 * @private
 		 */
-		Object.defineProperty(this, '_array', { value: null, writable: true, configurable: true });
+	  Object.defineProperty(this, '_array', { value: null, writable: true, configurable: true });
 
-		/**
+	  /**
 		 * Cached array for the `keyArray()` method - will be reset to `null` whenever `set()` or `delete()` are called
 		 * @name Collection#_keyArray
 		 * @type {?Array}
 		 * @private
 		 */
-		Object.defineProperty(this, '_keyArray', { value: null, writable: true, configurable: true });
+	  Object.defineProperty(this, '_keyArray', { value: null, writable: true, configurable: true });
 	}
 
 	/**
@@ -45,7 +48,7 @@ class Collection<K, V> extends Map<K, V> {
 	 * @returns {* | undefined}
 	 */
 	public get(key: K): V | undefined {
-		return super.get(key);
+	  return super.get(key);
 	}
 
 	/**
@@ -56,9 +59,10 @@ class Collection<K, V> extends Map<K, V> {
 	 * @returns {Collection}
 	 */
 	public set(key: K, value: V): this {
-		this._array = null;
-		this._keyArray = null;
-		return super.set(key, value);
+	  this._array = null;
+	  this._keyArray = null;
+
+	  return super.set(key, value);
 	}
 
 	/**
@@ -68,7 +72,7 @@ class Collection<K, V> extends Map<K, V> {
 	 * @returns {boolean} `true` if the element exists, `false` if it does not exist.
 	 */
 	public has(key: K): boolean {
-		return super.has(key);
+	  return super.has(key);
 	}
 
 	/**
@@ -78,9 +82,10 @@ class Collection<K, V> extends Map<K, V> {
 	 * @returns {boolean} `true` if the element was removed, `false` if the element does not exist.
 	 */
 	public delete(key: K): boolean {
-		this._array = null;
-		this._keyArray = null;
-		return super.delete(key);
+	  this._array = null;
+	  this._keyArray = null;
+
+	  return super.delete(key);
 	}
 
 	/**
@@ -89,7 +94,7 @@ class Collection<K, V> extends Map<K, V> {
 	 * @returns {undefined}
 	 */
 	public clear(): void {
-		return super.clear();
+	  return super.clear();
 	}
 
 	/**
@@ -100,8 +105,9 @@ class Collection<K, V> extends Map<K, V> {
 	 * @returns {Array}
 	 */
 	public array(): V[] {
-		if (this._array?.length !== this.size) this._array = [...this.values()];
-		return this._array;
+	  if (this._array?.length !== this.size) this._array = [...this.values()];
+
+	  return this._array;
 	}
 
 	/**
@@ -112,8 +118,9 @@ class Collection<K, V> extends Map<K, V> {
 	 * @returns {Array}
 	 */
 	public keyArray(): K[] {
-		if (this._keyArray?.length !== this.size) this._keyArray = [...this.keys()];
-		return this._keyArray;
+	  if (this._keyArray?.length !== this.size) this._keyArray = [...this.keys()];
+
+	  return this._keyArray;
 	}
 
 	/**
@@ -123,13 +130,17 @@ class Collection<K, V> extends Map<K, V> {
 	 * amount is negative
 	 */
 	public first(): V | undefined;
+
 	public first(amount: number): V[];
+
 	public first(amount?: number): V | V[] | undefined {
-		if (typeof amount === 'undefined') return this.values().next().value;
-		if (amount < 0) return this.last(amount * -1);
-		amount = Math.min(this.size, amount);
-		const iter = this.values();
-		return Array.from({ length: amount }, (): V => iter.next().value);
+	  if (typeof amount === 'undefined') return this.values().next().value;
+	  if (amount < 0) return this.last(amount * -1);
+	  amount = Math.min(this.size, amount);
+	  const iter = this.values();
+
+
+	  return Array.from({ length: amount }, (): V => iter.next().value);
 	}
 
 	/**
@@ -139,13 +150,17 @@ class Collection<K, V> extends Map<K, V> {
 	 * amount is negative
 	 */
 	public firstKey(): K | undefined;
+
 	public firstKey(amount: number): K[];
+
 	public firstKey(amount?: number): K | K[] | undefined {
-		if (typeof amount === 'undefined') return this.keys().next().value;
-		if (amount < 0) return this.lastKey(amount * -1);
-		amount = Math.min(this.size, amount);
-		const iter = this.keys();
-		return Array.from({ length: amount }, (): K => iter.next().value);
+	  if (typeof amount === 'undefined') return this.keys().next().value;
+	  if (amount < 0) return this.lastKey(amount * -1);
+	  amount = Math.min(this.size, amount);
+	  const iter = this.keys();
+
+
+	  return Array.from({ length: amount }, (): K => iter.next().value);
 	}
 
 	/**
@@ -156,13 +171,17 @@ class Collection<K, V> extends Map<K, V> {
 	 * amount is negative
 	 */
 	public last(): V | undefined;
+
 	public last(amount: number): V[];
+
 	public last(amount?: number): V | V[] | undefined {
-		const arr = this.array();
-		if (typeof amount === 'undefined') return arr[arr.length - 1];
-		if (amount < 0) return this.first(amount * -1);
-		if (!amount) return [];
-		return arr.slice(-amount);
+	  const arr = this.array();
+
+	  if (typeof amount === 'undefined') return arr[arr.length - 1];
+	  if (amount < 0) return this.first(amount * -1);
+	  if (!amount) return [];
+
+	  return arr.slice(-amount);
 	}
 
 	/**
@@ -173,13 +192,17 @@ class Collection<K, V> extends Map<K, V> {
 	 * amount is negative
 	 */
 	public lastKey(): K | undefined;
+
 	public lastKey(amount: number): K[];
+
 	public lastKey(amount?: number): K | K[] | undefined {
-		const arr = this.keyArray();
-		if (typeof amount === 'undefined') return arr[arr.length - 1];
-		if (amount < 0) return this.firstKey(amount * -1);
-		if (!amount) return [];
-		return arr.slice(-amount);
+	  const arr = this.keyArray();
+
+	  if (typeof amount === 'undefined') return arr[arr.length - 1];
+	  if (amount < 0) return this.firstKey(amount * -1);
+	  if (!amount) return [];
+
+	  return arr.slice(-amount);
 	}
 
 	/**
@@ -189,16 +212,20 @@ class Collection<K, V> extends Map<K, V> {
 	 * @returns {*|Array<*>} A single value if no amount is provided or an array of values
 	 */
 	public random(): V;
+
 	public random(amount: number): V[];
+
 	public random(amount?: number): V | V[] {
-		let arr = this.array();
-		if (typeof amount === 'undefined') return arr[Math.floor(Math.random() * arr.length)];
-		if (!arr.length || !amount) return [];
-		arr = arr.slice();
-		return Array.from(
-			{ length: Math.min(amount, arr.length) },
-			(): V => arr.splice(Math.floor(Math.random() * arr.length), 1)[0],
-		);
+	  let arr = this.array();
+
+	  if (typeof amount === 'undefined') return arr[Math.floor(Math.random() * arr.length)];
+	  if (!arr.length || !amount) return [];
+	  arr = arr.slice();
+
+	  return Array.from(
+	    { length: Math.min(amount, arr.length) },
+	    (): V => arr.splice(Math.floor(Math.random() * arr.length), 1)[0],
+	  );
 	}
 
 	/**
@@ -208,16 +235,20 @@ class Collection<K, V> extends Map<K, V> {
 	 * @returns {*|Array<*>} A single key if no amount is provided or an array
 	 */
 	public randomKey(): K;
+
 	public randomKey(amount: number): K[];
+
 	public randomKey(amount?: number): K | K[] {
-		let arr = this.keyArray();
-		if (typeof amount === 'undefined') return arr[Math.floor(Math.random() * arr.length)];
-		if (!arr.length || !amount) return [];
-		arr = arr.slice();
-		return Array.from(
-			{ length: Math.min(amount, arr.length) },
-			(): K => arr.splice(Math.floor(Math.random() * arr.length), 1)[0],
-		);
+	  let arr = this.keyArray();
+
+	  if (typeof amount === 'undefined') return arr[Math.floor(Math.random() * arr.length)];
+	  if (!arr.length || !amount) return [];
+	  arr = arr.slice();
+
+	  return Array.from(
+	    { length: Math.min(amount, arr.length) },
+	    (): K => arr.splice(Math.floor(Math.random() * arr.length), 1)[0],
+	  );
 	}
 
 	/**
@@ -232,13 +263,16 @@ class Collection<K, V> extends Map<K, V> {
 	 * @example collection.find(user => user.username === 'Bob');
 	 */
 	public find(fn: (value: V, key: K, collection: this) => boolean): V | undefined;
+
 	public find<T>(fn: (this: T, value: V, key: K, collection: this) => boolean, thisArg: T): V | undefined;
+
 	public find(fn: (value: V, key: K, collection: this) => boolean, thisArg?: unknown): V | undefined {
-		if (typeof thisArg !== 'undefined') fn = fn.bind(thisArg);
-		for (const [key, val] of this) {
-			if (fn(val, key, this)) return val;
-		}
-		return undefined;
+	  if (typeof thisArg !== 'undefined') fn = fn.bind(thisArg);
+	  for (const [key, val] of this) {
+	    if (fn(val, key, this)) return val;
+	  }
+
+	  return undefined;
 	}
 
 	/**
@@ -251,13 +285,16 @@ class Collection<K, V> extends Map<K, V> {
 	 * @example collection.findKey(user => user.username === 'Bob');
 	 */
 	public findKey(fn: (value: V, key: K, collection: this) => boolean): K | undefined;
+
 	public findKey<T>(fn: (this: T, value: V, key: K, collection: this) => boolean, thisArg: T): K | undefined;
+
 	public findKey(fn: (value: V, key: K, collection: this) => boolean, thisArg?: unknown): K | undefined {
-		if (typeof thisArg !== 'undefined') fn = fn.bind(thisArg);
-		for (const [key, val] of this) {
-			if (fn(val, key, this)) return key;
-		}
-		return undefined;
+	  if (typeof thisArg !== 'undefined') fn = fn.bind(thisArg);
+	  for (const [key, val] of this) {
+	    if (fn(val, key, this)) return key;
+	  }
+
+	  return undefined;
 	}
 
 	/**
@@ -267,14 +304,18 @@ class Collection<K, V> extends Map<K, V> {
 	 * @returns {number} The number of removed entries
 	 */
 	public sweep(fn: (value: V, key: K, collection: this) => boolean): number;
+
 	public sweep<T>(fn: (this: T, value: V, key: K, collection: this) => boolean, thisArg: T): number;
+
 	public sweep(fn: (value: V, key: K, collection: this) => boolean, thisArg?: unknown): number {
-		if (typeof thisArg !== 'undefined') fn = fn.bind(thisArg);
-		const previousSize = this.size;
-		for (const [key, val] of this) {
-			if (fn(val, key, this)) this.delete(key);
-		}
-		return previousSize - this.size;
+	  if (typeof thisArg !== 'undefined') fn = fn.bind(thisArg);
+	  const previousSize = this.size;
+
+	  for (const [key, val] of this) {
+	    if (fn(val, key, this)) this.delete(key);
+	  }
+
+	  return previousSize - this.size;
 	}
 
 	/**
@@ -287,14 +328,18 @@ class Collection<K, V> extends Map<K, V> {
 	 * @example collection.filter(user => user.username === 'Bob');
 	 */
 	public filter(fn: (value: V, key: K, collection: this) => boolean): this;
+
 	public filter<T>(fn: (this: T, value: V, key: K, collection: this) => boolean, thisArg: T): this;
+
 	public filter(fn: (value: V, key: K, collection: this) => boolean, thisArg?: unknown): this {
-		if (typeof thisArg !== 'undefined') fn = fn.bind(thisArg);
-		const results = new this.constructor[Symbol.species]<K, V>() as this;
-		for (const [key, val] of this) {
-			if (fn(val, key, this)) results.set(key, val);
-		}
-		return results;
+	  if (typeof thisArg !== 'undefined') fn = fn.bind(thisArg);
+	  const results = new this.constructor[Symbol.species]<K, V>() as this;
+
+	  for (const [key, val] of this) {
+	    if (fn(val, key, this)) results.set(key, val);
+	  }
+
+	  return results;
 	}
 
 	/**
@@ -306,21 +351,25 @@ class Collection<K, V> extends Map<K, V> {
 	 * @example const [big, small] = collection.partition(guild => guild.memberCount > 250);
 	 */
 	public partition(fn: (value: V, key: K, collection: this) => boolean): [this, this];
+
 	public partition<T>(fn: (this: T, value: V, key: K, collection: this) => boolean, thisArg: T): [this, this];
+
 	public partition(fn: (value: V, key: K, collection: this) => boolean, thisArg?: unknown): [this, this] {
-		if (typeof thisArg !== 'undefined') fn = fn.bind(thisArg);
-		const results: [this, this] = [
+	  if (typeof thisArg !== 'undefined') fn = fn.bind(thisArg);
+	  const results: [this, this] = [
 			new this.constructor[Symbol.species]() as this,
 			new this.constructor[Symbol.species]() as this,
-		];
-		for (const [key, val] of this) {
-			if (fn(val, key, this)) {
-				results[0].set(key, val);
-			} else {
-				results[1].set(key, val);
-			}
-		}
-		return results;
+	  ];
+
+	  for (const [key, val] of this) {
+	    if (fn(val, key, this)) {
+	      results[0].set(key, val);
+	    } else {
+	      results[1].set(key, val);
+	    }
+	  }
+
+	  return results;
 	}
 
 	/**
@@ -332,13 +381,17 @@ class Collection<K, V> extends Map<K, V> {
 	 * @example collection.flatMap(guild => guild.members.cache);
 	 */
 	public flatMap<T>(fn: (value: V, key: K, collection: this) => Collection<K, T>): Collection<K, T>;
+
 	public flatMap<T, This>(
 		fn: (this: This, value: V, key: K, collection: this) => Collection<K, T>,
 		thisArg: This,
 	): Collection<K, T>;
+
 	public flatMap<T>(fn: (value: V, key: K, collection: this) => Collection<K, T>, thisArg?: unknown): Collection<K, T> {
-		const collections = this.map(fn, thisArg);
-		return (new this.constructor[Symbol.species]() as Collection<K, T>).concat(...collections);
+	  const collections = this.map(fn, thisArg);
+
+
+	  return (new this.constructor[Symbol.species]() as Collection<K, T>).concat(...collections);
 	}
 
 	/**
@@ -350,17 +403,23 @@ class Collection<K, V> extends Map<K, V> {
 	 * @example collection.map(user => user.tag);
 	 */
 	public map<T>(fn: (value: V, key: K, collection: this) => T): T[];
+
 	public map<This, T>(fn: (this: This, value: V, key: K, collection: this) => T, thisArg: This): T[];
+
 	public map<T>(fn: (value: V, key: K, collection: this) => T, thisArg?: unknown): T[] {
-		if (typeof thisArg !== 'undefined') fn = fn.bind(thisArg);
-		const iter = this.entries();
-		return Array.from(
-			{ length: this.size },
-			(): T => {
-				const [key, value] = iter.next().value;
-				return fn(value, key, this);
-			},
-		);
+	  if (typeof thisArg !== 'undefined') fn = fn.bind(thisArg);
+	  const iter = this.entries();
+
+
+	  return Array.from(
+	    { length: this.size },
+	    (): T => {
+	      const [key, value] = iter.next().value;
+
+
+	      return fn(value, key, this);
+	    },
+	  );
 	}
 
 	/**
@@ -372,12 +431,16 @@ class Collection<K, V> extends Map<K, V> {
 	 * @example collection.mapValues(user => user.tag);
 	 */
 	public mapValues<T>(fn: (value: V, key: K, collection: this) => T): Collection<K, T>;
+
 	public mapValues<This, T>(fn: (this: This, value: V, key: K, collection: this) => T, thisArg: This): Collection<K, T>;
+
 	public mapValues<T>(fn: (value: V, key: K, collection: this) => T, thisArg?: unknown): Collection<K, T> {
-		if (typeof thisArg !== 'undefined') fn = fn.bind(thisArg);
-		const coll = new this.constructor[Symbol.species]() as Collection<K, T>;
-		for (const [key, val] of this) coll.set(key, fn(val, key, this));
-		return coll;
+	  if (typeof thisArg !== 'undefined') fn = fn.bind(thisArg);
+	  const coll = new this.constructor[Symbol.species]() as Collection<K, T>;
+
+	  for (const [key, val] of this) coll.set(key, fn(val, key, this));
+
+	  return coll;
 	}
 
 	/**
@@ -389,13 +452,16 @@ class Collection<K, V> extends Map<K, V> {
 	 * @example collection.some(user => user.discriminator === '0000');
 	 */
 	public some(fn: (value: V, key: K, collection: this) => boolean): boolean;
+
 	public some<T>(fn: (this: T, value: V, key: K, collection: this) => boolean, thisArg: T): boolean;
+
 	public some(fn: (value: V, key: K, collection: this) => boolean, thisArg?: unknown): boolean {
-		if (typeof thisArg !== 'undefined') fn = fn.bind(thisArg);
-		for (const [key, val] of this) {
-			if (fn(val, key, this)) return true;
-		}
-		return false;
+	  if (typeof thisArg !== 'undefined') fn = fn.bind(thisArg);
+	  for (const [key, val] of this) {
+	    if (fn(val, key, this)) return true;
+	  }
+
+	  return false;
 	}
 
 	/**
@@ -407,13 +473,16 @@ class Collection<K, V> extends Map<K, V> {
 	 * @example collection.every(user => !user.bot);
 	 */
 	public every(fn: (value: V, key: K, collection: this) => boolean): boolean;
+
 	public every<T>(fn: (this: T, value: V, key: K, collection: this) => boolean, thisArg: T): boolean;
+
 	public every(fn: (value: V, key: K, collection: this) => boolean, thisArg?: unknown): boolean {
-		if (typeof thisArg !== 'undefined') fn = fn.bind(thisArg);
-		for (const [key, val] of this) {
-			if (!fn(val, key, this)) return false;
-		}
-		return true;
+	  if (typeof thisArg !== 'undefined') fn = fn.bind(thisArg);
+	  for (const [key, val] of this) {
+	    if (!fn(val, key, this)) return false;
+	  }
+
+	  return true;
 	}
 
 	/**
@@ -426,29 +495,31 @@ class Collection<K, V> extends Map<K, V> {
 	 * @example collection.reduce((acc, guild) => acc + guild.memberCount, 0);
 	 */
 	public reduce<T>(fn: (accumulator: T, value: V, key: K, collection: this) => T, initialValue?: T): T {
-		let accumulator!: T;
+	  let accumulator!: T;
 
-		if (typeof initialValue !== 'undefined') {
-			accumulator = initialValue;
-			for (const [key, val] of this) accumulator = fn(accumulator, val, key, this);
-			return accumulator;
-		}
-		let first = true;
-		for (const [key, val] of this) {
-			if (first) {
-				accumulator = (val as unknown) as T;
-				first = false;
-				continue;
-			}
-			accumulator = fn(accumulator, val, key, this);
-		}
+	  if (typeof initialValue !== 'undefined') {
+	    accumulator = initialValue;
+	    for (const [key, val] of this) accumulator = fn(accumulator, val, key, this);
 
-		// No items iterated.
-		if (first) {
-			throw new TypeError('Reduce of empty collection with no initial value');
-		}
+	    return accumulator;
+	  }
+	  let first = true;
 
-		return accumulator;
+	  for (const [key, val] of this) {
+	    if (first) {
+	      accumulator = (val as unknown) as T;
+	      first = false;
+	      continue;
+	    }
+	    accumulator = fn(accumulator, val, key, this);
+	  }
+
+	  // No items iterated.
+	  if (first) {
+	    throw new TypeError('Reduce of empty collection with no initial value');
+	  }
+
+	  return accumulator;
 	}
 
 	/**
@@ -465,10 +536,13 @@ class Collection<K, V> extends Map<K, V> {
 	 *  .each(user => console.log(user.username));
 	 */
 	public each(fn: (value: V, key: K, collection: this) => void): this;
+
 	public each<T>(fn: (this: T, value: V, key: K, collection: this) => void, thisArg: T): this;
+
 	public each(fn: (value: V, key: K, collection: this) => void, thisArg?: unknown): this {
-		this.forEach(fn as (value: V, key: K, map: Map<K, V>) => void, thisArg);
-		return this;
+	  this.forEach(fn as (value: V, key: K, map: Map<K, V>) => void, thisArg);
+
+	  return this;
 	}
 
 	/**
@@ -483,11 +557,14 @@ class Collection<K, V> extends Map<K, V> {
 	 *  .tap(coll => console.log(coll.size))
 	 */
 	public tap(fn: (collection: this) => void): this;
+
 	public tap<T>(fn: (this: T, collection: this) => void, thisArg: T): this;
+
 	public tap(fn: (collection: this) => void, thisArg?: unknown): this {
-		if (typeof thisArg !== 'undefined') fn = fn.bind(thisArg);
-		fn(this);
-		return this;
+	  if (typeof thisArg !== 'undefined') fn = fn.bind(thisArg);
+	  fn(this);
+
+	  return this;
 	}
 
 	/**
@@ -496,7 +573,7 @@ class Collection<K, V> extends Map<K, V> {
 	 * @example const newColl = someColl.clone();
 	 */
 	public clone(): this {
-		return new this.constructor[Symbol.species](this) as this;
+	  return new this.constructor[Symbol.species](this) as this;
 	}
 
 	/**
@@ -506,11 +583,13 @@ class Collection<K, V> extends Map<K, V> {
 	 * @example const newColl = someColl.concat(someOtherColl, anotherColl, ohBoyAColl);
 	 */
 	public concat(...collections: Collection<K, V>[]): this {
-		const newColl = this.clone();
-		for (const coll of collections) {
-			for (const [key, val] of coll) newColl.set(key, val);
-		}
-		return newColl;
+	  const newColl = this.clone();
+
+	  for (const coll of collections) {
+	    for (const [key, val] of coll) newColl.set(key, val);
+	  }
+
+	  return newColl;
 	}
 
 	/**
@@ -521,16 +600,17 @@ class Collection<K, V> extends Map<K, V> {
 	 * @returns {boolean} Whether the collections have identical contents
 	 */
 	public equals(collection: Collection<K, V>): boolean {
-		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-		if (!collection) return false; // runtime check
-		if (this === collection) return true;
-		if (this.size !== collection.size) return false;
-		for (const [key, value] of this) {
-			if (!collection.has(key) || value !== collection.get(key)) {
-				return false;
-			}
-		}
-		return true;
+	  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+	  if (!collection) return false; // runtime check
+	  if (this === collection) return true;
+	  if (this.size !== collection.size) return false;
+	  for (const [key, value] of this) {
+	    if (!collection.has(key) || value !== collection.get(key)) {
+	      return false;
+	    }
+	  }
+
+	  return true;
 	}
 
 	/**
@@ -544,22 +624,24 @@ class Collection<K, V> extends Map<K, V> {
 	 * @example collection.sort((userA, userB) => userA.createdTimestamp - userB.createdTimestamp);
 	 */
 	public sort(
-		compareFunction: (firstValue: V, secondValue: V, firstKey: K, secondKey: K) => number = (x, y): number =>
-			Number(x > y) || Number(x === y) - 1,
+	  compareFunction: (firstValue: V, secondValue: V, firstKey: K, secondKey: K) => number = (x, y): number =>
+	    Number(x > y) || Number(x === y) - 1,
 	): this {
-		const entries = [...this.entries()];
-		entries.sort((a, b): number => compareFunction(a[1], b[1], a[0], b[0]));
+	  const entries = [...this.entries()];
 
-		// Perform clean-up
-		super.clear();
-		this._array = null;
-		this._keyArray = null;
+	  entries.sort((a, b): number => compareFunction(a[1], b[1], a[0], b[0]));
 
-		// Set the new entries
-		for (const [k, v] of entries) {
-			super.set(k, v);
-		}
-		return this;
+	  // Perform clean-up
+	  super.clear();
+	  this._array = null;
+	  this._keyArray = null;
+
+	  // Set the new entries
+	  for (const [k, v] of entries) {
+	    super.set(k, v);
+	  }
+
+	  return this;
 	}
 
 	/**
@@ -568,7 +650,7 @@ class Collection<K, V> extends Map<K, V> {
 	 * @returns {Collection}
 	 */
 	public intersect(other: Collection<K, V>): Collection<K, V> {
-		return other.filter((_, k) => this.has(k));
+	  return other.filter((_, k) => this.has(k));
 	}
 
 	/**
@@ -577,7 +659,7 @@ class Collection<K, V> extends Map<K, V> {
 	 * @returns {Collection}
 	 */
 	public difference(other: Collection<K, V>): Collection<K, V> {
-		return other.filter((_, k) => !this.has(k)).concat(this.filter((_, k) => !other.has(k)));
+	  return other.filter((_, k) => !this.has(k)).concat(this.filter((_, k) => !other.has(k)));
 	}
 
 	/**
@@ -591,12 +673,12 @@ class Collection<K, V> extends Map<K, V> {
 	 * @example collection.sorted((userA, userB) => userA.createdTimestamp - userB.createdTimestamp);
 	 */
 	public sorted(
-		compareFunction: (firstValue: V, secondValue: V, firstKey: K, secondKey: K) => number = (x, y): number =>
-			Number(x > y) || Number(x === y) - 1,
+	  compareFunction: (firstValue: V, secondValue: V, firstKey: K, secondKey: K) => number = (x, y): number =>
+	    Number(x > y) || Number(x === y) - 1,
 	): this {
-		return (new this.constructor[Symbol.species]([...this.entries()]) as this).sort((av, bv, ak, bk) =>
-			compareFunction(av, bv, ak, bk),
-		);
+	  return (new this.constructor[Symbol.species]([...this.entries()]) as this).sort((av, bv, ak, bk) =>
+	    compareFunction(av, bv, ak, bk),
+	  );
 	}
 }
 

@@ -3,8 +3,8 @@
 import { randomString } from '.';
 
 function printRandom() {
-	process.stdout.write(randomString(16));
-	setTimeout(printRandom, 1)
+  process.stdout.write(randomString(16));
+  setTimeout(printRandom, 1);
 }
 
 printRandom();
