@@ -11,9 +11,9 @@ exports.CONNECTION = {
 }
 
 exports.TELEMETRY = {
-	URL: 'wss://socket.dogehouse.xyz',
+	URL: 'wss://socket.dogegarden.net',
 	PATH: '/socket',
-	INTERVAL: 8000,
+	INTERVAL: 30000,
 	EMITTER: {
 		INIT: 'init',
 		TRANSMIT: 'transmit'
