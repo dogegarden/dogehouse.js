@@ -21,19 +21,6 @@ class Telemetry {
 	}
 
 	/**
-	 * Initialize Telemetry Socket Connection
-	 * 
-	 * This function will initialize the bot connection with the DogeGarden API so that there
-	 * the bot can be recognized by the DogeHouse stats page.
-	 * 
-	 * @function
-	 * @returns {Promise<io.Socket>}
-	 */
-	async init() {
-		this._socketDoge.emit(TELEMETRY.EMITTER.INIT);//dep
-	}
-
-	/**
 	 * Transmit Telemetry Data
 	 * 
 	 * This function will take the data about the bot and the room that the bot is in
