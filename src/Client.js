@@ -33,9 +33,6 @@ class Client extends BaseClient {
 		this._sendTelemetry = ((options.sendTelemetry !== undefined) ? options.sendTelemetry : true);
 
 		/** @private */
-		this._blockAngular = ((options.blockAngular !== undefined) ? options.sendTelemetry : false);
-
-		/** @private */
 		this._connectionDate = null;
 
 		/** @private */
