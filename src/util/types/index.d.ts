@@ -395,4 +395,3 @@ export enum OpCode {
 export interface OpCodeData {
 	''
 }
-
