@@ -94,6 +94,7 @@ class RoomController {
 	/**
 	 * Get Voice Server ID
 	 * @type {String}
+	 * @readonly
 	 */
 	get voiceServer() {
 		return this._voiceServer;
