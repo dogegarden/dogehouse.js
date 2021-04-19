@@ -71,7 +71,7 @@ class Users {
 		if (ctlByCaseI) return ctlByCaseI;
 
 		return new Promise(async (resolve, reject) => {
-			return resolve(this._client.api.fetchData(OP_CODE.GET_USER_PROFILE, {userId: value}));
+			return resolve(this.setUserData((await this._client.api.fetchData(OP_CODE.GET_USER_PROFILE, {userId: value})).d));
 		});
 	}
 }

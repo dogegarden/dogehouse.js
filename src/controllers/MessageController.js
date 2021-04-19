@@ -174,6 +174,9 @@ class MessageController {
 		});
 	}
 
+	/**
+	 * Get the raw message contents
+	 */
 	toString() {
 		return this.content;
 	}

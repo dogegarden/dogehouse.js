@@ -21,11 +21,11 @@ export class Client extends BaseClient {
 	private _connectionDate: Date | null;
 	private _botUser: BotUser | null;
 	
-	public socket: ReconnectingWebSocket | null;
-	public api: API | null;
-	public users: Users | null;
+	public socket: ReconnectingWebSocket;
+	public api: API;
+	public users: Users;
 	public rooms: Rooms;
-	public chat: Chat | null;
+	public chat: Chat;
 	
 	private incommingChatMessageListener: Map<string, Function[]>
 	private registerIncommingChatMessageListener: (text: string, fn: Function) => void
@@ -34,7 +34,7 @@ export class Client extends BaseClient {
 	private _eventCache: Collection<string, Function>
 
 	get uptime(): number | null;
-	get bot(): BotUser | null;
+	get bot(): BotUser;
 
 	public connect(token?: string, refreshToken?: string): Promise<Client>;
 }
