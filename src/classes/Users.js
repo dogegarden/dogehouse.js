@@ -59,7 +59,6 @@ class Users {
 	 * @param {String} value User ID or Username
 	 */
 	get (value) {
-
 		if (this._userControllerCache.has(value)) {
 			return this._userControllerCache.get(value);
 		}

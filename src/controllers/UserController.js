@@ -1,5 +1,6 @@
 const Client = require("../Client");
 const { OP_CODE } = require("../util/constraints");
+const { OpCode } = require("../util/ops");
 const MessageController = require("./MessageController");
 
 class UserController {
@@ -66,6 +67,8 @@ class UserController {
 		 * @private
 		 */
 		this._avatarURL = data.avatarUrl;
+
+		this._currentRoomId = data.currentRoomId;
 
 	}
 
@@ -241,6 +244,19 @@ class UserController {
 				resolve(this);
 			}).catch(reject);
 		})
+	}
+
+	toJson() {
+		return {
+			id: this.id,
+			bio: this.bio,
+			avatarUrl: this.avatarUrl,
+			username: this.username,
+			displayName: this.displayName,
+			numFollowers: this.numFollowers,
+			numFollowing: this.numFollowing,
+			currentRoomId: this._currentRoomId
+		}
 	}
 
 	/**

@@ -2,6 +2,7 @@ import Collection from '../Collection';
 import { TypedEmitter } from 'tiny-typed-emitter';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import { Socket } from 'socket.io-client';
+import { OpCode } from '../ops';
 
 export class BaseClient extends TypedEmitter<ClientEvents> {
 	constructor();
@@ -205,6 +206,7 @@ export class UserController {
 	private _followsBot: boolean;
 	private _displayName: string;
 	private _avatarURL: string;
+	private _currentRoomId: string;
 
 	readonly get id(): string;
 	readonly get bio(): string;
@@ -215,6 +217,8 @@ export class UserController {
 	readonly get numFollowing(): number;
 	readonly get followsBot(): boolean;
 
+	async get followers(): any;
+
 	follow(): Promise<UserController>;
 	unfollow(): Promise<UserController>;
 
@@ -223,6 +227,8 @@ export class UserController {
 
 	setListener(): Promise<UserController>;
 	setSpeaker(): Promise<UserController>;
+
+	async toJson(): UserJsonData;
 
 	private update(data: any): void;
 }
@@ -310,6 +316,17 @@ interface MessageReplyOptions {
 	mentionUser?: boolean
 }
 
+interface UserJsonData {
+	id: string,
+	bio: string,
+	avatarUrl: string,
+	username: string,
+	displayName: string,
+	numFollowers: number,
+	numFollowing: number,
+	currentRoomId: string	
+}
+
 export enum Events {
 	READY = 'ready',
 
@@ -338,60 +355,4 @@ export enum Events {
 	
 	TELEMETRY_INITIALIZED = 'telemetryInitialized',
 	TELEMETRY_DATA_TRANSMITTED = 'telemetryDataTransmitted',
-}
-
-export enum OpCode {
-	AUTH_GOOD = 'auth-good',
-	NEW_TOKENS = 'new-tokens',
-	
-	BOT_JOINED_AS_SPEAKER = 'you-joined-as-speaker',
-	BOT_JOINED_AS_PEER = 'you-joined-as-peer',
-	BOT_LEFT_ROOM = 'you_left_room',
-	
-	BOT_IS_NOW_SPEAKER = 'you-are-now-a-speaker',
-	
-	NEW_PEER_SPEAKER = 'new-peer-speaker',
-	
-	JOIN_ROOM = 'join_room',
-	
-	ACTIVE_SPEAKER_CHANGE = 'active_speaker_change',
-	
-	USER_LEFT_ROOM = 'user_left_room',
-	USER_JOINED_ROOM = 'new_user_join_room',
-	
-	NEW_CHAT_MESSAGE = 'new_chat_msg',
-	
-	MOD_CHANGED = 'mod_changed',
-	SPEAKER_REMOVED = 'speaker_removed',
-	CHAT_USER_BANNED = 'chat_user_banned',
-	
-	ASK_TO_SPEAK = 'ask_to_speak',
-	HAND_RAISED = 'hand_raised',
-	ADD_SPEAKER = 'add_speaker',
-	SET_LISTENER = 'set_listener',
-	
-	GET_CURRENT_ROOM_USERS = 'get_current_room_users',
-	GET_CURRENT_ROOM_USERS_DONE = 'get_current_room_users_done',
-	
-	SEND_ROOM_CHAT_MSG = 'send_room_chat_msg',
-	
-	DELETE_ROOM_CHAT_MESSAGE = 'delete_room_chat_message',
-	
-	MUTE = 'mute',
-	FOLLOW = 'follow',
-	
-	CHANGE_MOD_STATUS = 'change_mod_status',
-	
-	GET_TOP_PUBLIC_ROOMS = 'get_top_public_rooms',
-	GET_TOP_PUBLIC_ROOMS_DONE = 'get_top_public_rooms_done',
-	
-	GET_USER_PROFILE = 'get_user_profile',
-	
-	FETCH_DONE = 'fetch_done',
-	
-	JOIN_ROOM_DONE = 'join_room_done',
-}
-
-export interface OpCodeData {
-	''
 }

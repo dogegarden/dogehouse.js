@@ -105,6 +105,8 @@ exports.OP_CODE = {
 	FETCH_DONE: 'fetch_done',
 	
 	JOIN_ROOM_DONE: 'join_room_done',
+	GET_FOLLOW_LIST: 'get_follow_list',
+
 }
 
 exports.ERROR = {
