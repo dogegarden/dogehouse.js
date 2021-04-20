@@ -171,7 +171,7 @@ class BotUser {
 	 * to speak, if it was successful, it will return a resolved promise.
 	 * 
 	 * @function
-	 * @returns {Promise<any>}
+	 * @returns {Promise<BotUser>}
 	 */
 	askToSpeak() {
 		return new Promise((resolve, reject) => {
@@ -179,7 +179,7 @@ class BotUser {
 				const timeout = setTimeout(() => { throw new Error('Request to speak timed out after 60 seconds.'); }, 60000);
 				this._client.on(EVENT.SOCKET_MESSAGE, (msg) => {
 					clearTimeout(timeout);
-					if (msg.op == OP_CODE.HAND_RAISED) return resolve();
+					if (msg.op == OP_CODE.HAND_RAISED) return resolve(this);
 				})
 			}).catch(err => {return reject(err)});
 		});
@@ -210,7 +210,7 @@ class BotUser {
 		return new Promise((resolve, reject) => {
 			this._client.api.send(OP_CODE.MUTE, {value: false}, null).then(() => {
 				this._muted = false;
-				return resolve();
+				return resolve(this);
 			})
 		})
 	}

@@ -19,6 +19,18 @@ class Users {
 	_userControllerCache = new Collection();
 
 	/**
+	 * Retrieve the User Cache
+	 * 
+	 * This will return the User Controller Cache which will have a list of all of the cached 
+	 * users.
+	 * 
+	 * @type {Collection<String, UserController>}
+	 */
+		 get cache() {
+			return this._userControllerCache;
+		}
+
+	/**
 	 * Set User Data
 	 * 
 	 * This function will allow you to cache a user, or update a user's data and then it will 
@@ -47,7 +59,6 @@ class Users {
 	 * @param {String} value User ID or Username
 	 */
 	get (value) {
-
 		if (this._userControllerCache.has(value)) {
 			return this._userControllerCache.get(value);
 		}
@@ -59,20 +70,8 @@ class Users {
 		if (ctlByCaseI) return ctlByCaseI;
 
 		return new Promise(async (resolve, reject) => {
-			return resolve(this._client.api.fetchData(OP_CODE.GET_USER_PROFILE, {userId: value}));
+			return resolve(this.setUserData((await this._client.api.fetchData(OP_CODE.GET_USER_PROFILE, {userId: value})).d));
 		});
-	}
-
-	/**
-	 * Retrieve the User Cache
-	 * 
-	 * This will return the User Controller Cache which will have a list of all of the cached 
-	 * users.
-	 * 
-	 * @type {Collection<String, UserController>}
-	 */
-	get cache() {
-		return this._userControllerCache;
 	}
 }
 

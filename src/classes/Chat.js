@@ -16,8 +16,6 @@ class Chat {
 		this._queueRoutine();
 	}
 
-	get queue() {}
-
 	/**
 	 * Alias of sendMessage
 	 * 
@@ -29,7 +27,7 @@ class Chat {
 	 */
 
 	send (message, options = {}) {
-		this.sendMessage(message, options);
+		return this.sendMessage(message, options);
 	}
 
 	/**
@@ -110,6 +108,7 @@ class Chat {
 			await new Promise(resolve => this._queueRoutineRevivePointer = resolve);
 		}
 	}
+
 	_queueRoutineRevivePointer;
 	_reviveQueue () {
 		this._queueRoutineRevivePointer?.();
@@ -147,7 +146,6 @@ class Chat {
 			).then(resolve).catch(reject);
 		});
 	}
-
 }
 
 module.exports = Chat;
