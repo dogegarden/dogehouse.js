@@ -177,10 +177,13 @@ class Client extends BaseClient {
 				}).catch(err => {throw err;});
 			});
 			socket.addEventListener("message", (e, arrivedId) => {
-				const msg = JSON.parse(e.data);
+				let msg;
 
-				if (msg === "pong") this.emit(EVENT.SOCKET_MESSAGE_PONG, msg);
-				else this.emit(EVENT.SOCKET_MESSAGE, msg, arrivedId);
+				if (e.data === "pong") return this.emit(EVENT.SOCKET_MESSAGE_PONG, 'pong');
+				else {
+					msg = JSON.parse(e.data);
+					this.emit(EVENT.SOCKET_MESSAGE, msg, arrivedId);
+				}
 
 				if (msg.op == OP_CODE.AUTH_GOOD) {
 					this._botUser = new BotUser(msg.d, this);
