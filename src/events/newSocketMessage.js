@@ -8,7 +8,7 @@ const { EVENT, OP_CODE } = require("../util/constraints")
  */
 module.exports = (app) => {
 	app.socket.addEventListener('message', async (e, arrivedId) => {
-		const msg = JSON.parse(e.data);
+		const msg = e.data !== "pong" ? JSON.parse(e.data) : e.data;
 		
 		const joinedCodes = [
 			OP_CODE.BOT_JOINED_AS_SPEAKER,
