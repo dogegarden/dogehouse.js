@@ -36,7 +36,7 @@ class UserController {
          * @type {Number} Number of people who the bot follows
          * @private
          */
-		this._numFollowing = data.numFollowers;
+		this._numFollowing = data.numFollowing;
 
         /**
          * @type {Number} Number of followers that the bot has.
