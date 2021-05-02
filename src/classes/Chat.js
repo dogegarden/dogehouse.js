@@ -1,6 +1,5 @@
 const { format, messageToString } = require('doge-utils');
 const MessageController = require('../controllers/MessageController');
-const { default: Collection } = require('../util/Collection');
 const { TIMEOUT: { CHAT_COOLDOWN: defaultChatCooldown }, OP_CODE } = require('../util/constraints');
 
 class Chat {

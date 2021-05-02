@@ -1,7 +1,6 @@
 const Client = require("../Client");
 const RoomController = require("../controllers/RoomController");
 const { OP_CODE, EVENT, CONNECTION } = require("../util/constraints");
-const { format, messageToString } = require('doge-utils');
 const MessageController = require("../controllers/MessageController");
 
 class BotUser {

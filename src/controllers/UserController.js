@@ -1,6 +1,5 @@
 const Client = require("../Client");
 const { OP_CODE } = require("../util/constraints");
-const { OpCode } = require("../util/ops");
 const MessageController = require("./MessageController");
 
 class UserController {

@@ -2,8 +2,6 @@ const Client = require("../Client");
 const UserController = require("./UserController");
 const { messageToString } = require('doge-utils');
 const { OP_CODE } = require("../util/constraints");
-const BotUser = require("../classes/BotUser");
-const { default: Collection } = require("../util/Collection");
 
 class MessageController {
 
