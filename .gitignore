@@ -1,4 +1,4 @@
-.idea
+.idea/
 # Logs
 logs
 *.log
@@ -41,7 +41,6 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
-package-lock.json
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
@@ -72,7 +71,7 @@ web_modules/
 
 # dotenv environment variables file
 .env
-node_modules
+
 .env.test
 
 # parcel-bundler cache (https://parceljs.org/)
@@ -112,8 +111,10 @@ dist
 .vscode-test
 
 # yarn v2
-.yarn/cache
-.yarn/unplugged
-.yarn/build-state.yml
-.yarn/install-state.gz
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
 .pnp.*
