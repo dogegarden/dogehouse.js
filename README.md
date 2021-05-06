@@ -29,7 +29,7 @@
 - Our NPM package is the quickest and easiest way to jump in with dogehouse.js.
 - [dogehouse.js package](https://www.npmjs.com/package/dogehouse.js)
 
-## Installation
+## Quick Start
 
 1. Go to [DogeHouse](https://dogehouse.tv)
 2. Open Developer options (F12 or Ctrl+Shift+I)
@@ -42,6 +42,15 @@ DOGEHOUSE_REFRESH_TOKEN=<refresh-token>
 ```
 
 5. Install [NodeJS](https://nodejs.org/en/) and [NPM](https://www.npmjs.com/).
+6. Install dogehouse.js package with npm:
+```sh 
+npm i dogehouse.js
+```
+or yarn
+```sh 
+yarn add dogehouse.js
+```
+7. Try an example
 
 ## Examples
 
