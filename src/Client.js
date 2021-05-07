@@ -163,9 +163,9 @@ class Client extends BaseClient {
 					// 4001 - Invalid Authentication
 					// 1011 - Invalid or missing authentication/refresh token
 
-					if (err.code == 4003) return reject(new Error('Unable to authenticate connection.'));
-					if (err.code == 4001) return reject(new Error('Socket connection taken.'));
-					if (err.code == 1011) return reject(new Error('Invalid or missing tokens'));
+					if (err.code == 4004) return reject(new Error('Unable to authenticate connection.'));
+					if (err.code == 4003) return reject(new Error('Socket connection taken.'));
+					if (err.code == 4001) return reject(new Error('Invalid or missing tokens'));
 
 					clearInterval(heartbeat);					
 
