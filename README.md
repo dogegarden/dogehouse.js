@@ -14,13 +14,13 @@
 </p>
 
 <h3 align="center">
-  <a href="https://dogehouse.xyz">Website</a>
-  <span> . </span>
+  <a href="https://dogegarden.net">Website</a>
+  <span> · </span>
   <a href="https://github.com/dogegarden/dogehouse.js/blob/master/Documentation/CONTRIBUTION.md">Contributing</a>
   <span> · </span>
   <a href="https://discord.gg/Nu6KVjJYj6">Discord</a>
   <span> · </span>
-  <a href="https://docs.dogehouse.xyz">Documentation</a>
+  <a href="https://wiki.dogegarden.net">Documentation</a>
 </h3>
 
 ---
