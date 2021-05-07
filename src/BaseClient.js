@@ -12,7 +12,7 @@ class BaseClient extends EventEmitter{
 
 	/** @private */
 	get randStrConst () {
-		return 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+		return 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@$%^&*()_-+={}[]:;"#<>,.?/\|';
 	}
 
 	/**
