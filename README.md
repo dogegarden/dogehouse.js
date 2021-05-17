@@ -14,13 +14,13 @@
 </p>
 
 <h3 align="center">
-  <a href="https://dogehouse.xyz">Website</a>
-  <span> . </span>
+  <a href="https://dogegarden.net">Website</a>
+  <span> · </span>
   <a href="https://github.com/dogegarden/dogehouse.js/blob/master/Documentation/CONTRIBUTION.md">Contributing</a>
   <span> · </span>
   <a href="https://discord.gg/Nu6KVjJYj6">Discord</a>
   <span> · </span>
-  <a href="https://docs.dogehouse.xyz">Documentation</a>
+  <a href="https://wiki.dogegarden.net">Documentation</a>
 </h3>
 
 ---
@@ -36,13 +36,15 @@
 3. Go to Application > Local Storage > dogehouse.tv
 4. Copy your token and refresh-token and put them in an .env file:
 
-```
+```py
 DOGEHOUSE_TOKEN=<token>
 DOGEHOUSE_REFRESH_TOKEN=<refresh-token>
 ```
 
 5. Install [NodeJS](https://nodejs.org/en/) and [NPM](https://www.npmjs.com/).
-6. Install dogehouse.js package with npm:
+6. Check if NodeJS is installed: `node -v`
+7. Check if npm is installed: `npm -v`
+8. Install dogehouse.js package with npm:
 ```sh 
 npm i dogehouse.js
 ```
@@ -50,7 +52,7 @@ or yarn
 ```sh 
 yarn add dogehouse.js
 ```
-7. Try an example
+9. Try an example
 
 ## Examples
 
