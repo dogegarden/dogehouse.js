@@ -14,13 +14,13 @@
 </p>
 
 <h3 align="center">
-  <a href="https://dogehouse.xyz">Website</a>
-  <span> . </span>
+  <a href="https://dogegarden.net">Website</a>
+  <span> · </span>
   <a href="https://github.com/dogegarden/dogehouse.js/blob/master/Documentation/CONTRIBUTION.md">Contributing</a>
   <span> · </span>
   <a href="https://discord.gg/Nu6KVjJYj6">Discord</a>
   <span> · </span>
-  <a href="https://docs.dogehouse.xyz">Documentation</a>
+  <a href="https://wiki.dogegarden.net">Documentation</a>
 </h3>
 
 ---
@@ -29,7 +29,7 @@
 - Our NPM package is the quickest and easiest way to jump in with dogehouse.js.
 - [dogehouse.js package](https://www.npmjs.com/package/dogehouse.js)
 
-## Quick Start
+## Installation
 
 1. Go to [DogeHouse](https://dogehouse.tv)
 2. Open Developer options (F12 or Ctrl+Shift+I)
@@ -42,32 +42,14 @@ DOGEHOUSE_REFRESH_TOKEN=<refresh-token>
 ```
 
 5. Install [NodeJS](https://nodejs.org/en/) and [NPM](https://www.npmjs.com/).
-6. Install dogehouse.js package with npm:
-```sh 
-npm i dogehouse.js
-```
-or yarn
-```sh 
-yarn add dogehouse.js
-```
-7. Try an example
 
 ## Examples
 
 - All examples like, sending messages, joining rooms, music, moderation and more are in [/examples.](https://github.com/dogegarden/dogehouse.js/tree/master/examples)
 
 ### JavaScript Example
-You can use the dotenv package to load the environment variables. To install the package run 
-```
-npm install dotenv
-```
-or using yarn - 
-```
-yarn add dotenv
-```
 - Get Popular Rooms
 ```js
-require("dotenv").config()
 const { Client } = require('dogehouse.js');
 const app = new Client();
 app.connect(process.env.DOGEHOUSE_TOKEN, process.env.DOGEHOUSE_REFRESH_TOKEN).then(async () => {
