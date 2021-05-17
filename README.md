@@ -36,13 +36,21 @@
 3. Go to Application > Local Storage > dogehouse.tv
 4. Copy your token and refresh-token and put them in an .env file:
 
-```
+```py
 DOGEHOUSE_TOKEN=<token>
 DOGEHOUSE_REFRESH_TOKEN=<refresh-token>
 ```
 
 5. Install [NodeJS](https://nodejs.org/en/) and [NPM](https://www.npmjs.com/).
-6. Install dogehouse.js package with npm:
+6. Check that node and npm are installed
+```sh
+node -v
+```
+and
+```sh
+npm -v
+```
+7. Install dogehouse.js package with npm:
 ```sh 
 npm i dogehouse.js
 ```
@@ -50,7 +58,7 @@ or yarn
 ```sh 
 yarn add dogehouse.js
 ```
-7. Try an example
+8. Try an example
 
 ## Examples
 
